@@ -16,7 +16,7 @@
                 </a>
             </li>
 
-            <li class="nav-item dropdown">
+            <!-- <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-uielement" role="button"
                 >
                     <i class="bx bx-tone me-2"></i>
@@ -387,7 +387,7 @@
                         </div>
                     </div>
                 </div>
-            </li>
+            </li> -->
 
         </ul>
     </div>
