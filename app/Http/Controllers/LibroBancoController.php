@@ -4,31 +4,55 @@ namespace App\Http\Controllers;
 
 use App\Models\LibroBanco;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class LibroBancoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        //
+        return view('LibroBancos.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function ListadoGet()
     {
-        //
+      return  $LibroBanco = LibroBanco::all();
+        return response()->json($LibroBanco);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $valor = LibroBanco::select('saldo')->orderBy('id', 'desc')->first()->saldo;
+        if ($request->tipo_operacion == 'Honorarios' || $request->tipo_operacion == 'Ingresos') {
+           $saldo =  $request->debe + $valor;
+        } else if($request->tipo_operacion == 'Gastos'){
+            $saldo =  $valor - $request->haber;
+        }
+        $validator = Validator::make($request->all(), [
+            'fecha_ingreso' => 'required',
+            'tipo_operacion' => 'required',
+            'fecha_periodo' => 'required',
+            'descripcion' => 'required',
+            'factura' => 'required',
+            'debe' => '',
+            'haber' => '',
+        ]);
+        if ($validator->passes()) {
+          $LibroBancos = new LibroBanco;
+          $LibroBancos->fecha_ingreso = $request->fecha_ingreso;
+          $LibroBancos->tipo_operacion = $request->tipo_operacion;
+          $LibroBancos->fecha_periodo = $request->fecha_periodo;
+          $LibroBancos->descripcion = $request->descripcion;
+          $LibroBancos->factura = $request->factura;
+          $LibroBancos->debe = $request->debe;
+          $LibroBancos->haber = $request->haber;
+          $LibroBancos->saldo = $saldo;
+          if($LibroBancos->save()){
+           return response()->json($LibroBancos);
+         }
+        }else{
+          return response()->json($validator->errors()->all());
+        }
     }
 
     /**

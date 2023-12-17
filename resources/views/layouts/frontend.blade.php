@@ -20,6 +20,9 @@
                 color: #ffffff!important;
                 background: #556ee6!important;
             }
+            input[readonly]{
+                background-color:#eeebeb !important;
+            }
         </style>
 </head>
 

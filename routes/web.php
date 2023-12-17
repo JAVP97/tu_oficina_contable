@@ -20,3 +20,7 @@ Route::middleware('role:Admin')->put('users/{user}/permissions', [App\Http\Contr
 #Clientes
 Route::resource('clientes', App\Http\Controllers\ClientesController::class);
 Route::get('/crear_cliente', [App\Http\Controllers\ClientesController::class, 'create']);
+
+#Libro de Bancos
+Route::resource('LibroBancos', App\Http\Controllers\LibroBancoController::class);
+Route::get('listado-libro-bancos', [App\Http\Controllers\LibroBancoController::class, 'ListadoGet'])->name('list.data.lb');
