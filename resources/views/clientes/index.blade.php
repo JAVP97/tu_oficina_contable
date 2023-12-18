@@ -11,18 +11,6 @@
                     <thead>
                         <tr class="text-center">
                             <th>Personalidad</th>
-                            <th>Nombre empresa</th>
-                            <th>RUT</th>
-                            <th>Profesión</th>
-                            <th>Dirección</th> 
-                            <th>Región</th>
-                            <th>Comuna</th>
-                            <th>Comentario</th>
-                            <th>Teléfono</th>
-                            <th>Pass SII</th>
-                            <th>Tasa PPM</th>
-                            <th>Fecha cobro</th>
-                            <th><i class="bx bx-cog font-size-16"></i></th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -35,3 +23,48 @@
 @endsection
 
 @push('styles')
+        <!-- Select 2 -->
+<!-- Styles -->
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+<!-- Or for RTL support -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
+<!-- DataTables -->
+<link href="{{asset('assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{asset('assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
+
+<!-- Responsive datatable examples -->
+<link href="{{asset('assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />   
+@endpush
+
+    <script src="{{url('assets/libs/jquery/jquery.min.js')}}"></script>
+    <script src="{{url('js/clientes/index.js')}}"></script>
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{{asset('assets/libs/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{asset('assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js')}}"></script>
+
+    <script>
+        $(function () {
+            console.log('eeeeeeeeeeeeeeeeee');
+            $('#laravel_datatable').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "responsive": false,
+                "autoWidth": false,
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+                },
+                "ajax": {
+                    url: "{{route('clientes.index')}}",
+                    type: 'GET',
+                },
+                "columns": [
+                        { data: 'personalidad', name: 'personalidad' },
+                    ],
+                "order": [[0, 'asc']]
+            });
+        });
+    </script>  -->

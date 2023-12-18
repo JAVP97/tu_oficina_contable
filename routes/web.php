@@ -20,3 +20,4 @@ Route::middleware('role:Admin')->put('users/{user}/permissions', [App\Http\Contr
 #Clientes
 Route::resource('clientes', App\Http\Controllers\ClientesController::class);
 Route::get('/crear_cliente', [App\Http\Controllers\ClientesController::class, 'create']);
+Route::get('/listado_clientes', [App\Http\Controllers\ClientesController::class, 'listadoClientes']);
