@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cliente;
 use App\Models\Comuna;
 use App\Models\Region;
+use App\Models\Cliente;
 use Illuminate\Http\Request;
+use App\Models\OpcionesCliente;
+use Illuminate\Support\Facades\DB;
 
 class ClientesController extends Controller
 {
@@ -14,38 +16,24 @@ class ClientesController extends Controller
      */
     public function index()
     {
-        //if(request()->ajax()) {
-            // $cliente = Cliente::all();
-            // return datatables()->of($cliente)
-            // ->addColumn('region_id', function($cliente) {
-            //     return $cliente->region->name;
-            // })
-            // ->addColumn('comuna_id', function($cliente) {
-            //     return $cliente->comuna->name;
-            // })
-            // // ->addColumn('action', 'clientes.action')
-            // // ->rawColumns(['action'])
-            // ->addIndexColumn()
-            //->toJson(true);
-        //}
-        return view('clientes/index');
+        $clientes = DB::table('clientes')->paginate(10);
+        return view('clientes.index', compact('clientes'));
     }
-
-    public function listadoClientes(Request $request)
+    
+    function fetch_data(Request $request)
     {
-        $clientes = Cliente::select('*')->get();
-        return response()->json($clientes); 
+        if($request->ajax())
+        {
+            $clientes = DB::table('clientes')->paginate(10);
+            return view('clientes.pagination_data', compact('clientes'))->render();
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
         $comunas = Comuna::select('id', 'name', 'region_id')->orderBy('name', 'asc')->get();
         $regiones = Region::select('id', 'name')->orderBy('name', 'asc')->get();
-        return view('clientes/create', compact('comunas', 'regiones'));
+        return view('clientes.create', compact('comunas', 'regiones'));
     }
 
     /**
@@ -53,7 +41,6 @@ class ClientesController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $validatedData = $request->validate([
             'personalidad' => 'required',
             'nombre_empresa' => 'required',
@@ -80,13 +67,24 @@ class ClientesController extends Controller
             'comuna_id.required' => 'Comuna es requerido',
             'comentario.required' => 'Comentario es requerido',
             'telefono.required' => 'Tlf es requerido',
-            'pass_sii.required' => 'Tlf es requerido',
-            'fecha_cobro.required' => 'Tlf es requerido',
+            'pass_sii.required' => 'Contraseña SII es requerido',
+            'fecha_cobro.required' => 'Fecha de Cobro es requerido',
         ]);
 
-        Cliente::create($validatedData);
+        $cliente = Cliente::create($validatedData);
+
+        $clienteOpc = new OpcionesCliente;
+        $clienteOpc->notificar = $request->notificar;
+        $clienteOpc->emails = $request->emails;
+        $clienteOpc->exento_iva = $request->exento_iva;
+        $clienteOpc->importaciones = $request->importaciones;
+        $clienteOpc->remuneraciones = $request->remuneraciones;
+        $clienteOpc->contabilidad = $request->contabilidad;
+        $clienteOpc->facturacion = $request->facturacion;
+        $clienteOpc->cliente_id = $cliente->id;
+        $clienteOpc->save(); 
         
-        return redirect()->back()->with('success','Cliente creado con éxito..');
+        return redirect('clientes')->with('success','Cliente creado con éxito..');
     }
 
     /**
@@ -157,5 +155,16 @@ class ClientesController extends Controller
         $cliente->delete();
         return redirect()->back()->with('success', 'Wliminado con exito!');
         
+    }
+
+    public function getRegion(Request $request)
+    {
+        if ($request->ajax()) {
+            $comunas = Comuna::where('region_id', $request->region)->get();
+            foreach ($comunas as $comuna) {
+                $comunasArray[$comuna->id] = $comuna->name;
+            }
+            return response()->json($comunasArray);
+        }
     }
 }

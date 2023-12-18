@@ -15,6 +15,12 @@
                     <span key="t-starter-page">Clientes</span>
                 </a>
             </li>
+            <li class="nav-item  {{ request()->is('LibroBancos') ? 'mm-active' : '' }}">
+                <a class="nav-link  waves-effect {{ request()->is('LibroBancos') ? 'active' : '' }}" href="{{ route('LibroBancos.index') }}" >
+                    <i class="bx bx bx-user"></i>
+                    <span key="t-starter-page">Libro de Banco</span>
+                </a>
+            </li>
 
             <!-- <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-uielement" role="button"

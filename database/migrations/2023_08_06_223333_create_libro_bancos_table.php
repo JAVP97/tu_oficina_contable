@@ -14,15 +14,13 @@ return new class extends Migration
         Schema::create('libro_bancos', function (Blueprint $table) {
             $table->increments('id');
             $table->date('fecha_ingreso')->nullable();
-            $table->enum('tipo_operacion', ['Honorarios', 'Gastos', 'Otros'])->nullable()->default('Otros');
+            $table->enum('tipo_operacion', ['Honorarios', 'Gastos', 'Ingresos'])->nullable();
             $table->date('fecha_periodo')->nullable();
             $table->string('descripcion')->nullable();
             $table->string('factura')->nullable();
             $table->integer('debe')->nullable()->default(0);
             $table->integer('haber')->nullable()->default(0);
             $table->integer('saldo')->nullable()->default(0);
-            $table->integer('cliente_id')->unsigned();
-            $table->foreign('cliente_id')->references('id')->on('clientes');
             $table->timestamps();
         });
     }

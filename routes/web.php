@@ -20,4 +20,9 @@ Route::middleware('role:Admin')->put('users/{user}/permissions', [App\Http\Contr
 #Clientes
 Route::resource('clientes', App\Http\Controllers\ClientesController::class);
 Route::get('/crear_cliente', [App\Http\Controllers\ClientesController::class, 'create']);
-Route::get('/listado_clientes', [App\Http\Controllers\ClientesController::class, 'listadoClientes']);
+Route::get('clientes/pagination/fetch_data', [App\Http\Controllers\ClientesController::class, 'fetch_data']);
+Route::get('regiones', [App\Http\Controllers\ClientesController::class,'getRegion'])->middleware('auth');
+
+#Libro de Bancos
+Route::resource('LibroBancos', App\Http\Controllers\LibroBancoController::class);
+Route::get('listado-libro-bancos', [App\Http\Controllers\LibroBancoController::class, 'ListadoGet'])->name('list.data.lb');

@@ -1,21 +1,63 @@
 @extends('layouts.frontend')
-@section('title', 'Inicio')
+@section('title', 'Listado de Clientes')
 @section('content')
 
 <div class="row">
     <div class="col-md-12 col-12">
         <div class="card">
-            <div class="card-body table-responsive">
+            <div class="card-body ">
                 <h4 class="card-title mb-4">Listado</h4>
-                <table id="laravel_datatable" class="table table-bordered dt-responsive  nowrap w-100">
-                    <thead>
-                        <tr class="text-center">
-                            <th>Personalidad</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
+                <div class="table-rep-plugin">
+                    <div class="table-wrapper">
+                        <div class="btn-toolbar">
+                            <div class="btn-group dropdown-btn-group pull-right">
+                                <a href="{{route('clientes.create')}}" class="btn btn-primary">Crear cliente</a>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="table_data">
+                    <table id="laravel_datatable" class="table table-striped">
+                        <thead>
+                            <tr class="text-center">
+                                <th>Personalidad</th>
+                                <th>Nombre empresa</th>
+                                <th>RUT</th>
+                                <th>Profesión</th>
+                                <th>Dirección</th> 
+                                <th>Región</th>
+                                <th>Comuna</th>
+                                <th>Comentario</th>
+                                <th>Teléfono</th>
+                                <th>Pass SII</th>
+                                <th>Tasa PPM</th>
+                                <th>Fecha cobro</th>
+                                <th><i class="bx bx-cog font-size-16"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($clientes as $cliente)
+                                <tr>
+                                    <td>{{ $cliente->personalidad }}</td>
+                                    <td>{{ $cliente->nombre_empresa }}</td>
+                                    <td>{{ $cliente->rut_empresa }}</td>
+                                    <td>{{ $cliente->profesion }}</td>
+                                    <td>{{ $cliente->direccion }}</td>
+                                    <td>{{ $cliente->region_id }}</td>
+                                    <td>{{ $cliente->comuna_id }}</td>
+                                    <td>{{ $cliente->comentario }}</td>
+                                    <td>{{ $cliente->telefono }}</td>
+                                    <td>{{ $cliente->pass_sii }}</td>
+                                    <td>{{ $cliente->tasa_ppm }}</td>
+                                    <td>{{ $cliente->fecha_cobro }}</td>
+                                    <td></td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    {!! $clientes->links() !!}
+                </div>
+            </div>            
         </div>
     </div>
 </div>
@@ -23,48 +65,31 @@
 @endsection
 
 @push('styles')
-        <!-- Select 2 -->
-<!-- Styles -->
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
-<!-- Or for RTL support -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
-<!-- DataTables -->
-<link href="{{asset('assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{asset('assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
-
-<!-- Responsive datatable examples -->
-<link href="{{asset('assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />   
+    
 @endpush
 
-    <script src="{{url('assets/libs/jquery/jquery.min.js')}}"></script>
-    <script src="{{url('js/clientes/index.js')}}"></script>
-
-    <!-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="{{asset('assets/libs/datatables.net/js/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{asset('assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js')}}"></script>
-
-    <script>
-        $(function () {
-            console.log('eeeeeeeeeeeeeeeeee');
-            $('#laravel_datatable').DataTable({
-                "processing": true,
-                "serverSide": true,
-                "responsive": false,
-                "autoWidth": false,
-                "language": {
-                    "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
-                },
-                "ajax": {
-                    url: "{{route('clientes.index')}}",
-                    type: 'GET',
-                },
-                "columns": [
-                        { data: 'personalidad', name: 'personalidad' },
-                    ],
-                "order": [[0, 'asc']]
-            });
-        });
-    </script>  -->
+@push('script')
+<script>
+    $(document).ready(function(){
+    
+     $(document).on('click', '.pagination a', function(event){
+      event.preventDefault(); 
+      var page = $(this).attr('href').split('page=')[1];
+      fetch_data(page);
+     });
+    
+     function fetch_data(page)
+     {
+      $.ajax({
+       url:"/clientes/pagination/fetch_data?page="+page,
+       success:function(data)
+       {
+        $('#table_data').html(data);
+       }
+      });
+     }
+     
+    });
+    </script>
+@endpush
+>>>>>>> 4d8206781b89cc4fe2e6491c8fa39f16c05bd643
