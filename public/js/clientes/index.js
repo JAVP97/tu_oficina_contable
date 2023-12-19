@@ -1,43 +1,104 @@
 $(document).ready(function(){
-    listadoClientes();
-});
 
-async function listadoClientes() {
-    console.log("listadoClientes");
-    $.ajax({
-        type: "GET",
-        url: "/listado_clientes",
-        data: {
-            "_token": $('meta[name="csrf-token"]').attr('content'),
-        },
-        success : function(data){
-            console.log(data);
-        
+    $(document).on('click', '.pagination a', function(event){
+        event.preventDefault(); 
+        var page = $(this).attr('href').split('page=')[1];
+        fetch_data(page);
+    });
+
+    $(".editarCliente").click(function(){
+        let id = $(this).attr("id");
+        editarCliente(id);
+    });
+
+    $(".eliminarCliente").click(async function(){
+        let id = $(this).attr("id");
+        const res = confirm("Seguro deseas eliminar el cliente?");
+        if (res) {
+            $.ajax({
+                type: "DELETE",
+                url: `clientes/${id}`,
+                dataType: 'json',
+                data: {
+                    "_token":  $('meta[name="csrf-token"]').attr('content'),
+                },
+                success : function(response){
+                    window.location.reload();
+                }
+            });
         }
     });
-    // $('#laravel_datatable').DataTable({
-    //     "processing": true,
-    //     "serverSide": true,
-    //     "responsive": false,
-    //     "autoWidth": false,
-    //     "language": {
-    //         "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
-    //     },
-    //     "ajax": {
-    //     url: "{{route('clientes.index')}}",
-    //     type: 'GET',
-    //     },
-    //     "columns": [
-    //             { data: 'razon_social_cliente', name: 'razon_social_cliente' },
-    //             { data: 'rut_cliente', name: 'rut_cliente' },
-    //             { data: 'email_cliente', name: 'email_cliente' },
-    //             { data: 'telefono_cliente', name: 'telefono_cliente' },
-    //             { data: 'direccion_cliente', name: 'direccion_cliente' },
-    //             { data: 'giro_id', name: 'giro_id' },
-    //             { data: 'region_id', name: 'region_id' },
-    //             { data: 'comuna_id', name: 'comuna_id' },
-    //             {data: 'action', name: 'action', orderable: false},
-    //         ],
-    //     "order": [[0, 'asc']]
-    // });
+    
+});
+
+function fetch_data(page) {
+    $.ajax({url:"/clientes/pagination/fetch_data?page="+page,
+        success:function(data){
+            $('#table_data').html(data);
+        }
+    });
+}
+
+function editarCliente(id) {
+    $.ajax({url:`/clientes/edit/${id}`,
+        success:function(data){
+            if (data) {
+                //Set info en formulario para Editar
+                $("#personalidad").val(data.personalidad);
+                $("#nombre_empresa").val(data.nombre_empresa);
+                $("#rut_empresa").val(data.rut_empresa);
+                $("#profesion").val(data.profesion);
+                $("#direccion").val(data.direccion);
+                $("#region_id").val(data.region_id);
+                $("#comuna_id").val(data.comuna_id);
+                $("#telefono").val(data.telefono);
+                $("#comentario").val(data.comentario);
+                $("#pass_sii").val(data.pass_sii);
+                $("#tasa_ppm").val(data.tasa_ppm);
+                $("#fecha_cobro").val(data.fecha_cobro);
+                $("#email").val(data.email);
+                $("#exento_iva").val(data.exento_iva);
+                $("#importaciones").val(data.importaciones);
+                $("#remuneraciones").val(data.remuneraciones);
+                $("#contabilidad").val(data.contabilidad);
+                $("#facturacion").val(data.facturacion);
+                //Abro modal
+                $('#editModal').modal('show');
+                
+                //UPDATE
+                $("#actualizarCliente").click(function(e){
+                    e.preventDefault();
+                    $.ajax({
+                        type: "PUT",
+                        url: `clientes/${id}`,
+                        dataType: 'json',
+                        data: {
+                            "_token":  $('meta[name="csrf-token"]').attr('content'),
+                            personalidad: $("#personalidad").val(),
+                            nombre_empresa: $("#nombre_empresa").val(),
+                            rut_empresa: $("#rut_empresa").val(),
+                            profesion: $("#profesion").val(),
+                            direccion: $("#direccion").val(),
+                            region_id: $("#region_id").val(),
+                            comuna_id: $("#comuna_id").val(),
+                            comentario: $("#comentario").val(),
+                            telefono: $("#telefono").val(),
+                            pass_sii: $("#pass_sii").val(),
+                            tasa_ppm: $("#tasa_ppm").val(),
+                            fecha_cobro: $("#fecha_cobro").val(),
+                        },
+                        success : function(response){
+                            $('#editModal').modal('toggle');
+                            alert('Registro Actualizado');
+                        },
+                        complete : function(xhr, status) {
+                            //$('#laravel_datatable').DataTable().ajax.reload(null, false);
+                            //Recargamos la pagina
+                            window.location.reload();
+                        }
+                    });
+                });
+            }
+        }
+    });
 }

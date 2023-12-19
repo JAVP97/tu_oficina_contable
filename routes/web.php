@@ -19,9 +19,11 @@ Route::middleware('role:Admin')->put('users/{user}/permissions', [App\Http\Contr
 
 #Clientes
 Route::resource('clientes', App\Http\Controllers\ClientesController::class);
-Route::get('/crear_cliente', [App\Http\Controllers\ClientesController::class, 'create']);
 Route::get('clientes/pagination/fetch_data', [App\Http\Controllers\ClientesController::class, 'fetch_data']);
 Route::get('regiones', [App\Http\Controllers\ClientesController::class,'getRegion'])->middleware('auth');
+Route::get('clientes/edit/{id}', [App\Http\Controllers\ClientesController::class, 'edit']);
+Route::put('clientes/{id}', [App\Http\Controllers\ClientesController::class, 'update']);
+Route::delete('clientes/{id}', [App\Http\Controllers\ClientesController::class, 'destroy']);
 
 #Libro de Bancos
 Route::resource('LibroBancos', App\Http\Controllers\LibroBancoController::class);
