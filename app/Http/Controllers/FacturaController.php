@@ -7,14 +7,19 @@ use Illuminate\Http\Request;
 
 class FacturaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $facturas = Factura::paginate(10);
+        return view('factura.index', compact('facturas'));
     }
-
+    function fetch_data(Request $request)
+    {
+        if($request->ajax())
+        {
+            $facturas = Factura::paginate(10);
+            return view('factura.pagination_data', compact('facturas'))->render();
+        }
+    }
     /**
      * Show the form for creating a new resource.
      */

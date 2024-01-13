@@ -36,3 +36,4 @@ Route::resource('forma-pago', App\Http\Controllers\FormaPagoController::class);
 Route::resource('empresa', App\Http\Controllers\EmpresaController::class);
 #factura
 Route::resource('factura', App\Http\Controllers\FacturaController::class);
+Route::get('factura/pagination/fetch_data', [App\Http\Controllers\FacturaController::class, 'fetch_data']);
