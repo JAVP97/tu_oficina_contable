@@ -28,3 +28,8 @@ Route::delete('clientes/{id}', [App\Http\Controllers\ClientesController::class, 
 #Libro de Bancos
 Route::resource('LibroBancos', App\Http\Controllers\LibroBancoController::class);
 Route::get('listado-libro-bancos', [App\Http\Controllers\LibroBancoController::class, 'ListadoGet'])->name('list.data.lb');
+
+#Forma de Pago
+Route::resource('forma-pago', App\Http\Controllers\FormaPagoController::class);
+#empresa
+Route::resource('empresa', App\Http\Controllers\EmpresaController::class);

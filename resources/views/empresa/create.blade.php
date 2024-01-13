@@ -45,7 +45,7 @@
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="comuna_id" class="col-form-label">Comuna</label>
-                                <div class="form-group">
+                                <div class="form-group"> 
                                     <select name="comuna_id" id="comuna_id" class="form-select select2">
                                         <option selected>Seleccione Comuna</option>
                                         @foreach ($comunas as $comuna)

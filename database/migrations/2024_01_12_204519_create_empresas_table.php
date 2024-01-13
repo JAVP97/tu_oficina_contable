@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('telefono_empresa')->nullable();
             $table->string('giro_empresa')->nullable();
             $table->string('act_econo_empresa')->nullable();
-            $table->timestamps();
+            $table->timestamps(); 
         });
     }
 

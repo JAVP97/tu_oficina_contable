@@ -40,7 +40,7 @@
                                     <a href="{{route('forma-pago.edit', $fp->id)}}" class="btn btn-success">Editar</a>
                                     <form action="{{ route('forma-pago.destroy', $fp->id) }}" method="POST" style="display: inline;">
                                         {{ method_field('DELETE') }}
-                                        {{ csrf_field() }}
+                                        @csrf
                                         <button class="btn btn-danger">Eliminar</button>
                                    </form>
                                 </td>

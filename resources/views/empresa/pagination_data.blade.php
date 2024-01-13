@@ -1,37 +1,33 @@
 <table id="laravel_datatable" class="table table-striped">
     <thead>
         <tr class="text-center">
-            <th>Personalidad</th>
-            <th>Nombre empresa</th>
-            <th>RUT</th>
-            <th>Profesión</th>
-            <th>Dirección</th> 
+            <th>Razón Social</th>
+            <th>Dirección</th>
             <th>Región</th>
             <th>Comuna</th>
-            <th>Comentario</th>
+            <th>Tipo Venta</th> 
+            <th>Email</th>
             <th>Teléfono</th>
-            <th>Pass SII</th>
-            <th>Tasa PPM</th>
-            <th>Fecha cobro</th>
+            <th>Giro</th>
+            <th>Actividad Económica</th>
             <th><i class="bx bx-cog font-size-16"></i></th>
         </tr>
     </thead>
     <tbody>
-        @foreach($clientes as $cliente)
+        @foreach($empresas as $e)
             <tr>
-                <td>{{ $cliente->personalidad }}</td>
-                <td>{{ $cliente->nombre_empresa }}</td>
-                <td>{{ $cliente->rut_empresa }}</td>
-                <td>{{ $cliente->profesion }}</td>
-                <td>{{ $cliente->direccion }}</td>
-                <td>{{ $cliente->region_id }}</td>
-                <td>{{ $cliente->comuna_id }}</td>
-                <td>{{ $cliente->comuna_id }}</td>
-                <td>{{ $cliente->comentario }}</td>
-                <td>{{ $cliente->telefono }}</td>
-                <td>{{ $cliente->pass_sii }}</td>
-                <td>{{ $cliente->tasa_ppm }}</td>
-                <td>{{ $cliente->fecha_cobro }}</td>
+                <td>{{ $e->razon_social }}</td>
+                <td>{{ $e->direccion_empresa }}</td>
+                <td>{{ $e->region_id }}</td>
+                <td>{{ $e->comuna_id }}</td>
+                <td>{{ $e->tipo_venta }}</td>
+                <td>{{ $e->email_empresa }}</td>
+                <td>{{ $e->telefono_empresa }}</td>
+                <td>{{ $e->giro_empresa }}</td>
+                <td>{{ $e->act_econo_empresa }}</td>
+                <td>
+                    <a href="{{route('empresa.edit', $e->id)}}" class="btn btn-success">Editar</a>
+                </td>
             </tr>
         @endforeach
     </tbody>

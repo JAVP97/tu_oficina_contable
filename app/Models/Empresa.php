@@ -7,5 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Empresa extends Model
 {
-    use HasFactory;
+    use HasFactory; 
+    protected $table = 'empresas';
+    protected $primaryKey = 'id';
 }

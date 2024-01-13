@@ -10,5 +10,5 @@ class FormaPago extends Model
     use HasFactory;
     protected $table = 'forma_pagos';
     protected $primaryKey = 'id';
-    protected $fillable = ['nombre_fp'];
+    protected $fillable = ['nombre_fp']; 
 }

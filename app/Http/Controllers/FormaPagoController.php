@@ -30,9 +30,6 @@ class FormaPagoController extends Controller
         return view('forma-pagos.edit', compact('forma_pago', 'formaPago'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, FormaPago $formaPago)
     {
         $formaPago->find($formaPago->id);

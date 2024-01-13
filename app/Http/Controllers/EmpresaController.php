@@ -32,9 +32,6 @@ class EmpresaController extends Controller
         return view('empresa.create', compact('comunas', 'regiones'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         // return $request;
