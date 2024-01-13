@@ -21,6 +21,12 @@
                     <span key="t-starter-page">Libro de Banco</span>
                 </a>
             </li>
+            <li class="nav-item  {{ request()->is('factura') ? 'mm-active' : '' }}">
+                <a class="nav-link  waves-effect {{ request()->is('factura') ? 'active' : '' }}" href="{{ route('factura.index') }}" >
+                    <i class="bx bx-file-blank"></i>
+                    <span key="t-starter-page">Fracturas</span>
+                </a>
+            </li>
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-uielement" role="button"
@@ -37,12 +43,12 @@
                             <div>
                                 <a href="{{ route('forma-pago.index') }}" class="dropdown-item {{ request()->is('forma-pago*') ? 'active' : '' }}" key="t-alerts">Forma de Pagos</a>
                                 <a href="{{ route('empresa.index') }}" class="dropdown-item {{ request()->is('empresa*') ? 'active' : '' }}" key="t-buttons">Empresa</a>
-                                <a href="ui-cards.html" class="dropdown-item" key="t-cards">Cards</a>
+                                {{-- <a href="ui-cards.html" class="dropdown-item" key="t-cards">Cards</a>
                                 <a href="ui-carousel.html" class="dropdown-item" key="t-carousel">Carousel</a>
                                 <a href="ui-dropdowns.html" class="dropdown-item" key="t-dropdowns">Dropdowns</a>
                                 <a href="ui-grid.html" class="dropdown-item" key="t-grid">Grid</a>
                                 <a href="ui-images.html" class="dropdown-item" key="t-images">Images</a>
-                                <a href="ui-lightbox.html" class="dropdown-item" key="t-lightbox">Lightbox</a>
+                                <a href="ui-lightbox.html" class="dropdown-item" key="t-lightbox">Lightbox</a> --}}
                             </div>
                         </div>
                     </div>

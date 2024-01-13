@@ -24,6 +24,7 @@ Route::get('regiones', [App\Http\Controllers\ClientesController::class,'getRegio
 Route::get('clientes/edit/{id}', [App\Http\Controllers\ClientesController::class, 'edit']);
 Route::put('clientes/{id}', [App\Http\Controllers\ClientesController::class, 'update']);
 Route::delete('clientes/{id}', [App\Http\Controllers\ClientesController::class, 'destroy']);
+Route::get('clientes/f29/{id}', [App\Http\Controllers\ClientesController::class, 'F29'])->name('f29');
 
 #Libro de Bancos
 Route::resource('LibroBancos', App\Http\Controllers\LibroBancoController::class);
@@ -33,3 +34,5 @@ Route::get('listado-libro-bancos', [App\Http\Controllers\LibroBancoController::c
 Route::resource('forma-pago', App\Http\Controllers\FormaPagoController::class);
 #empresa
 Route::resource('empresa', App\Http\Controllers\EmpresaController::class);
+#factura
+Route::resource('factura', App\Http\Controllers\FacturaController::class);

@@ -44,8 +44,8 @@
                                 <tr>
                                     <td>{{ $e->razon_social }}</td>
                                     <td>{{ $e->direccion_empresa }}</td>
-                                    <td>{{ $e->region_id }}</td>
-                                    <td>{{ $e->comuna_id }}</td>
+                                    <td>{{ $e->regiones->name }}</td>
+                                    <td>{{ $e->comuna->name }}</td>
                                     <td>{{ $e->tipo_venta }}</td>
                                     <td>{{ $e->email_empresa }}</td>
                                     <td>{{ $e->telefono_empresa }}</td>

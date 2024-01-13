@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Comuna;
+use App\Models\Region;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Cliente extends Model
 {
@@ -12,4 +14,13 @@ class Cliente extends Model
     protected $table = 'clientes';
     protected $primaryKey = 'id';
     protected $fillable = ['personalidad', 'nombre_empresa', 'rut_empresa','profesion', 'direccion', 'region_id', 'comuna_id', 'comentario', 'telefono', 'pass_sii', 'tasa_ppm', 'fecha_cobro'];
+
+    public function regiones()
+    {
+        return $this->belongsTo(Region::class, 'region_id');
+    }
+    public function comuna()
+    {
+        return $this->belongsTo(Comuna::class, 'comuna_id');
+    }
 }

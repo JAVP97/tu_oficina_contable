@@ -14,14 +14,14 @@ class EmpresaController extends Controller
 {
     public function index()
     {
-        $empresas = DB::table('empresas')->paginate(10);
+        $empresas = Empresa::paginate(10);
         return view('empresa.index', compact('empresas'));
     }
     function fetch_data(Request $request)
     {
         if($request->ajax())
         {
-            $empresas = DB::table('empresas')->paginate(10);
+            $empresas = Empresa::paginate(10);
             return view('empresa.pagination_data', compact('empresas'))->render();
         }
     }

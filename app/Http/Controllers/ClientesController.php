@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Comuna;
 use App\Models\Region;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
 use App\Models\Cliente;
-use Illuminate\Http\Request;
 use App\Models\OpcionesCliente;
 use Illuminate\Support\Facades\DB;
 
@@ -16,7 +17,7 @@ class ClientesController extends Controller
      */
     public function index()
     {
-        $clientes = DB::table('clientes')->paginate(10);
+        $clientes = Cliente::paginate(10);
         $comunas = Comuna::select('id', 'name', 'region_id')->orderBy('name', 'asc')->get();
         $regiones = Region::select('id', 'name')->orderBy('name', 'asc')->get();
         return view('clientes.index', compact('clientes', 'comunas', 'regiones'));
@@ -26,7 +27,7 @@ class ClientesController extends Controller
     {
         if($request->ajax())
         {
-            $clientes = DB::table('clientes')->paginate(10);
+            $clientes = Cliente::paginate(10);
             return view('clientes.pagination_data', compact('clientes'))->render();
         }
     }
@@ -173,5 +174,39 @@ class ClientesController extends Controller
             }
             return response()->json($comunasArray);
         }
+    }
+    public function F29() {
+        // Auth
+        $client = new Client();
+        $body = '{
+            "apikey": "0823-W110-6387-4295-6224"
+        }
+        ';
+        $response = new Request('GET', 'https://api.simpleapi.cl/api/auth/token', [], $body);
+        $token = json_decode((string) $response->getBody(), true);
+
+        $client2 = new Client();
+
+        $credentials = base64_encode('api:'.$token["apikey"]);
+
+        // Proceso
+        $params = [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'Authorization' => ['Basic '.$credentials],
+            ],
+            'json' => [
+                'RutUsuario' => "26646588-2",
+                'PasswordSII' => "17604505gp",
+                'RutEmpresa' => "76974835-0",
+                'Ambiente' => 1,
+                'Detallado' => true
+            ]
+        ];
+        $requests = $client2->request('POST', 'https://servicios.simpleapi.cl/api/RCV/ventas/11/2023', $params);
+        return  $responseBody = json_decode((string) $requests->getBody(), true);
+
+        #https://documentacion.simpleapi.cl/#auth-info-e7b925f6-cf4d-4a7a-acde-7d3ebf1e2866
     }
 }

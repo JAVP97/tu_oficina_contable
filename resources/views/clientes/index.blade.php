@@ -43,8 +43,8 @@
                                     <td>{{ $cliente->rut_empresa }}</td>
                                     <td>{{ $cliente->profesion }}</td>
                                     <td>{{ $cliente->direccion }}</td>
-                                    <td>{{ $cliente->region_id }}</td>
-                                    <td>{{ $cliente->comuna_id }}</td>
+                                    <td>{{ $cliente->regiones->name }}</td>
+                                    <td>{{ $cliente->comuna->name }}</td>
                                     <td>{{ $cliente->comentario }}</td>
                                     <td>{{ $cliente->telefono }}</td>
                                     <td>{{ $cliente->pass_sii }}</td>
@@ -53,6 +53,7 @@
                                     <td>
                                         <a href="#" class="editarCliente" id="{{ $cliente->id }}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="bx bx-edit"></i></a>
                                         <a href="#" class="eliminarCliente text-danger" id="{{ $cliente->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar"><i class="bx bx-shield"></i></a>
+                                        <a href="{{route('f29', $cliente->id )}}" class="text-success" id="{{ $cliente->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="F29"><i class="bx bx-cloud-download"></i></a>
                                         
                                     </td>
                                 </tr>
