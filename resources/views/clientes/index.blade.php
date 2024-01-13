@@ -45,12 +45,16 @@
                                     <td>{{ $cliente->direccion }}</td>
                                     <td>{{ $cliente->region_id }}</td>
                                     <td>{{ $cliente->comuna_id }}</td>
-                                    <td>{{ $cliente->comuna_id }}</td>
                                     <td>{{ $cliente->comentario }}</td>
                                     <td>{{ $cliente->telefono }}</td>
                                     <td>{{ $cliente->pass_sii }}</td>
                                     <td>{{ $cliente->tasa_ppm }}</td>
                                     <td>{{ $cliente->fecha_cobro }}</td>
+                                    <td>
+                                        <a href="#" class="editarCliente" id="{{ $cliente->id }}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="bx bx-edit"></i></a>
+                                        <a href="#" class="eliminarCliente text-danger" id="{{ $cliente->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar"><i class="bx bx-shield"></i></a>
+                                        
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -61,6 +65,30 @@
         </div>
     </div>
 </div>
+{{--MODAL EDITAR--}}
+<div id="editModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Editar CLiente</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal row" role="form">
+                    @include('clientes.formulario')
+                    <div class="row justify-content-end mt-4">
+                        <div class="col-sm-12">
+                            <div>
+                                <button id="actualizarCliente" class="btn btn-primary w-md">Actualizar</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @endsection
 
@@ -69,26 +97,5 @@
 @endpush
 
 @push('script')
-<script>
-    $(document).ready(function(){
-    
-     $(document).on('click', '.pagination a', function(event){
-      event.preventDefault(); 
-      var page = $(this).attr('href').split('page=')[1];
-      fetch_data(page);
-     });
-    
-     function fetch_data(page)
-     {
-      $.ajax({
-       url:"/clientes/pagination/fetch_data?page="+page,
-       success:function(data)
-       {
-        $('#table_data').html(data);
-       }
-      });
-     }
-     
-    });
-    </script>
+    <script src="{{asset('js/clientes/index.js')}}"></script>
 @endpush

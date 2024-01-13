@@ -17,8 +17,11 @@ class ClientesController extends Controller
     public function index()
     {
         $clientes = DB::table('clientes')->paginate(10);
-        return view('clientes.index', compact('clientes'));
+        $comunas = Comuna::select('id', 'name', 'region_id')->orderBy('name', 'asc')->get();
+        $regiones = Region::select('id', 'name')->orderBy('name', 'asc')->get();
+        return view('clientes.index', compact('clientes', 'comunas', 'regiones'));
     }
+
     function fetch_data(Request $request)
     {
         if($request->ajax())
@@ -27,6 +30,7 @@ class ClientesController extends Controller
             return view('clientes.pagination_data', compact('clientes'))->render();
         }
     }
+
     public function create()
     {
         $comunas = Comuna::select('id', 'name', 'region_id')->orderBy('name', 'asc')->get();
@@ -96,25 +100,68 @@ class ClientesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Cliente $cliente)
+    public function edit($id)
     {
         //
+        $cliente = Cliente::find($id);
+        return $cliente;
     }
 
     /**
      * Update the specified resource in storage.
-     */
-    public function update(Request $request, Cliente $cliente)
+    */
+    public function update(Request $request, $id)
     {
-        //
+        if ($request->ajax()) 
+        {
+            //
+            $validatedData = $request->validate([
+                'personalidad' => 'required',
+                'nombre_empresa' => 'required',
+                'rut_empresa' => 'required|unique:clientes,rut_empresa,'.$id,
+                'profesion' => 'required',
+                'direccion' => 'required',
+                'region_id' => 'required',
+                'comuna_id' => 'required',
+                'comentario' => 'required',
+                'telefono' => 'required',
+                'pass_sii' => 'required',
+                'tasa_ppm' => 'required',
+                'fecha_cobro' => 'required',
+                
+            ], [
+                'personalidad.required' => 'Razon Social es requerido',
+                'nombre_empresa' => 'Nombre de la empresa es requerido',
+                'rut_cliente.required' => 'RUT es requerido',
+                'rut_cliente.unique' => 'El cliente ya existe con este rut',
+                'rutdv_cliente.required' => 'Dígito verificador es requerido',
+                'profesion.required' => 'Profesion es requerido',
+                'direccion.required' => 'Dirección es requerido',
+                'region_id.required' => 'Región es requerido',
+                'comuna_id.required' => 'Comuna es requerido',
+                'comentario.required' => 'Comentario es requerido',
+                'telefono.required' => 'Tlf es requerido',
+                'pass_sii.required' => 'Tlf es requerido',
+                'fecha_cobro.required' => 'Tlf es requerido',
+            ]);
+
+            $cliente = Cliente::find($id);
+            $cliente->fill($validatedData)->save();
+
+            return response()->json($cliente);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cliente $cliente)
+    public function destroy(Request $request, $id)
     {
         //
+        $cliente = Cliente::find($id);
+        $cliente->delete();
+        return redirect()->back()->with('success', 'Eliminado con exito!');
+        
     }
 
     public function getRegion(Request $request)

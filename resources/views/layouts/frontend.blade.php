@@ -4,26 +4,28 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
 	<title>@yield('title') - Sistema Contable | Hyperonym</title>
-        <!-- Favicon -->
-        <link rel="icon" href="{{asset('assets/images/logos/logo.png')}}" type="image/png">
-        <!-- Icons -->
-        <link rel="stylesheet" href="{{ url('vendor/@fortawesome/fontawesome-free/css/all.min.css')}}" type="text/css">
-        <!-- Bootstrap Css -->
-        <link href="{{ url('assets/css/bootstrap.min.css')}}" id="bootstrap-style" rel="stylesheet" type="text/css" />
-        <!-- Icons Css -->
-        <link href="{{ url('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
-        @stack('style')
-        <!-- App Css-->
-        <link href="{{ url('assets/css/app.min.css')}}" id="app-style" rel="stylesheet" type="text/css" />
-        <style>
-            body[data-sidebar=dark] .mm-active .active{
-                color: #ffffff!important;
-                background: #556ee6!important;
-            }
-            input[readonly]{
-                background-color:#eeebeb !important;
-            }
-        </style>
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- Favicon -->
+    <link rel="icon" href="{{asset('assets/images/logos/logo.png')}}" type="image/png">
+    <!-- Icons -->
+    <link rel="stylesheet" href="{{ url('vendor/@fortawesome/fontawesome-free/css/all.min.css')}}" type="text/css">
+    <!-- Bootstrap Css -->
+    <link href="{{ url('assets/css/bootstrap.min.css')}}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="{{ url('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
+    @stack('style')
+    <!-- App Css-->
+    <link href="{{ url('assets/css/app.min.css')}}" id="app-style" rel="stylesheet" type="text/css" />
+    <style>
+        body[data-sidebar=dark] .mm-active .active{
+            color: #ffffff!important;
+            background: #556ee6!important;
+        }
+        input[readonly]{
+            background-color:#eeebeb !important;
+        }
+    </style>
 </head>
 
 <body data-topbar="dark" data-layout="horizontal" data-layout-size="boxed">
