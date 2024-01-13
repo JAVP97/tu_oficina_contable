@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comuna;
+use App\Models\Region;
+use App\Models\Cliente;
+use App\Models\Empresa;
 use App\Models\Factura;
 use Illuminate\Http\Request;
 
@@ -25,7 +29,11 @@ class FacturaController extends Controller
      */
     public function create()
     {
-        //
+        $empresa = Empresa::find(1);
+        $clientes = Cliente::all();
+        $comunas = Comuna::select('id', 'name', 'region_id')->orderBy('name', 'asc')->get();
+        $regiones = Region::select('id', 'name')->orderBy('name', 'asc')->get();
+        return view('factura.create', compact('empresa', 'clientes', 'comunas', 'regiones'));
     }
 
     /**
@@ -33,7 +41,7 @@ class FacturaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $request;
     }
 
     /**

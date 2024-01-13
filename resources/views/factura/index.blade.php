@@ -11,7 +11,7 @@
                     <div class="table-wrapper">
                         <div class="btn-toolbar">
                             <div class="btn-group dropdown-btn-group pull-right">
-                                    <a href="{{route('empresa.create')}}" class="btn btn-primary">Crear Empresa</a>                                
+                                    <a href="{{route('factura.create')}}" class="btn btn-primary">Crear factura</a>                                
                             </div>
                         </div>
                     </div>

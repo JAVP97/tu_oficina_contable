@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Comuna;
 use App\Models\Region;
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
 use App\Models\Cliente;
 use App\Models\OpcionesCliente;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class ClientesController extends Controller
 {
@@ -182,7 +182,7 @@ class ClientesController extends Controller
             "apikey": "0823-W110-6387-4295-6224"
         }
         ';
-        $response = new Request('GET', 'https://api.simpleapi.cl/api/auth/token', [], $body);
+        $response = \GuzzleHttp\Psr7\Request('GET', 'https://api.simpleapi.cl/api/auth/token', [], $body);
         $token = json_decode((string) $response->getBody(), true);
 
         $client2 = new Client();
@@ -208,5 +208,16 @@ class ClientesController extends Controller
         return  $responseBody = json_decode((string) $requests->getBody(), true);
 
         #https://documentacion.simpleapi.cl/#auth-info-e7b925f6-cf4d-4a7a-acde-7d3ebf1e2866
+    }
+
+    public function getClientes(Request $request)
+    {
+        if ($request->ajax()) {
+            $clientes = Cliente::select('clientes.*', 'r.name as region', 'c.name as comuna')
+            ->join('regions as r', 'clientes.region_id', 'r.id')
+            ->join('comunas as c', 'clientes.comuna_id', 'c.id')
+            ->where('clientes.id', $request->id_cliente)->get();
+            return response()->json($clientes);
+        }
     }
 }

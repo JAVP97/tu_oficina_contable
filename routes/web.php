@@ -25,7 +25,7 @@ Route::get('clientes/edit/{id}', [App\Http\Controllers\ClientesController::class
 Route::put('clientes/{id}', [App\Http\Controllers\ClientesController::class, 'update']);
 Route::delete('clientes/{id}', [App\Http\Controllers\ClientesController::class, 'destroy']);
 Route::get('clientes/f29/{id}', [App\Http\Controllers\ClientesController::class, 'F29'])->name('f29');
-
+Route::get('get/clientes', [App\Http\Controllers\ClientesController::class, 'getClientes'])->name('clientes.get')->middleware('auth');
 #Libro de Bancos
 Route::resource('LibroBancos', App\Http\Controllers\LibroBancoController::class);
 Route::get('listado-libro-bancos', [App\Http\Controllers\LibroBancoController::class, 'ListadoGet'])->name('list.data.lb');
