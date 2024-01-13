@@ -26,3 +26,9 @@ Route::get('regiones', [App\Http\Controllers\ClientesController::class,'getRegio
 #Libro de Bancos
 Route::resource('LibroBancos', App\Http\Controllers\LibroBancoController::class);
 Route::get('listado-libro-bancos', [App\Http\Controllers\LibroBancoController::class, 'ListadoGet'])->name('list.data.lb');
+
+#Forma Pago
+Route::resource('forma-pago', App\Http\Controllers\FormaPagoController::class);
+#Empresa
+Route::resource('empresa', App\Http\Controllers\EmpresaController::class);
+Route::get('empresa/pagination/fetch_data', [App\Http\Controllers\EmpresaController::class, 'fetch_data']);
