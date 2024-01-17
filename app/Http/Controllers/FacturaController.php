@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Comuna;
 use App\Models\Region;
 use App\Models\Cliente;
 use App\Models\Empresa;
 use App\Models\Factura;
+use App\Models\FormaPago;
 use Illuminate\Http\Request;
 
 class FacturaController extends Controller
@@ -29,11 +31,12 @@ class FacturaController extends Controller
      */
     public function create()
     {
-        $empresa = Empresa::find(1);
+
+        $date = \Carbon\Carbon::now();
+        $asunto = $date->formatLocalized('%B %Y');
         $clientes = Cliente::all();
-        $comunas = Comuna::select('id', 'name', 'region_id')->orderBy('name', 'asc')->get();
-        $regiones = Region::select('id', 'name')->orderBy('name', 'asc')->get();
-        return view('factura.create', compact('empresa', 'clientes', 'comunas', 'regiones'));
+        $forma_pago = FormaPago::all();
+        return view('factura.create', compact('clientes', 'asunto', 'forma_pago'));
     }
 
     /**
@@ -41,7 +44,24 @@ class FacturaController extends Controller
      */
     public function store(Request $request)
     {
-        return $request;
+        // return $request;
+        //Temporal Disponible
+        $longitud = count($request->cliente_id);
+
+        for($i=0; $i<$longitud; $i++)
+        {
+            $factura = new Factura();
+            $factura->cliente_id = $request->cliente_id[$i];
+            $factura->forma_pago_id = $request->forma_pago_id[$i];
+            $factura->descripcion_producto = $request->descripcion_producto[$i];
+            $factura->cantidad_producto = $request->cantidad_producto[$i];
+            $factura->valor_neto = $request->valor_neto[$i];
+            $factura->iva = $request->iva[$i];
+            $factura->valor_iva = $request->valor_iva[$i];
+            $factura->save();
+        }
+
+        return redirect()->back();
     }
 
     /**

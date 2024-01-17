@@ -29,20 +29,8 @@
 </head>
 
 <body data-topbar="dark" data-layout="horizontal" data-layout-size="boxed">
-        <!-- Loader -->
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner-chase">
-                    <div class="chase-dot"></div>
-                    <div class="chase-dot"></div>
-                    <div class="chase-dot"></div>
-                    <div class="chase-dot"></div>
-                    <div class="chase-dot"></div>
-                    <div class="chase-dot"></div>
-                </div>
-            </div>
-        </div>
-        <div id="layout-wrapper">
+
+        <div id="layout-wrapper" >
             <header id="page-topbar">
                 <div class="navbar-header">
                     <div class="d-flex">
