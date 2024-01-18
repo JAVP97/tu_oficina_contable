@@ -10,6 +10,7 @@ use App\Models\Empresa;
 use App\Models\Factura;
 use App\Models\FormaPago;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class FacturaController extends Controller
 {
@@ -59,6 +60,21 @@ class FacturaController extends Controller
             $factura->iva = $request->iva[$i];
             $factura->valor_iva = $request->valor_iva[$i];
             $factura->save();
+
+            $facturaMail = Factura::find($factura->id);
+
+            //Generar Factura
+            $pdf = \PDF::loadView('factura.show')->setPaper("letter");
+            $path = public_path('facturas/');
+            $fileName = 'Factura #'. $factura->id . '.' . 'pdf';
+            $pdf->save($path . '/' . $fileName);
+
+            Mail::send('factura.mail', ['factura' => $facturaMail], function ($m) use ($facturaMail, $path, $fileName) {
+                $m->from('test@mail.com', 'Name');
+                $m->to('jesus@bcasual.cl', 'Jesus');
+                $m->subject('Factura #'. $facturaMail->id );
+                $m->attach($path . '/' . $fileName);
+            });
         }
 
         return redirect()->back();

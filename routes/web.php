@@ -26,6 +26,8 @@ Route::put('clientes/{id}', [App\Http\Controllers\ClientesController::class, 'up
 Route::delete('clientes/{id}', [App\Http\Controllers\ClientesController::class, 'destroy']);
 Route::get('clientes/f29/{id}', [App\Http\Controllers\ClientesController::class, 'F29'])->name('f29');
 Route::get('get/clientes', [App\Http\Controllers\ClientesController::class, 'getClientes'])->name('clientes.get')->middleware('auth');
+Route::post('clientes/factura/{id}', [App\Http\Controllers\ClientesController::class, 'GenerarFactura'])->name('factura.sii');
+Route::post('clientes/cobranza/{id}', [App\Http\Controllers\ClientesController::class, 'GenerarCobranza'])->name('factura.cobranza');
 #Libro de Bancos
 Route::resource('LibroBancos', App\Http\Controllers\LibroBancoController::class);
 Route::get('listado-libro-bancos', [App\Http\Controllers\LibroBancoController::class, 'ListadoGet'])->name('list.data.lb');

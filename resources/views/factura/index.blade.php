@@ -33,22 +33,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($facturas as $f)
-                                <tr>
-                                    <td>{{ $f->razon_social }}</td>
-                                    <td>{{ $f->direccion_empresa }}</td>
-                                    <td>{{ $f->regiones->name }}</td>
-                                    <td>{{ $f->comuna->name }}</td>
-                                    <td>{{ $f->tipo_venta }}</td>
-                                    <td>{{ $f->email_empresa }}</td>
-                                    <td>{{ $f->telefono_empresa }}</td>
-                                    <td>{{ $f->giro_empresa }}</td>
-                                    <td>{{ $f->act_econo_empresa }}</td>
-                                    <td>
-                                        <a href="{{route('empresa.edit', $f->id)}}" class="btn btn-success">Editar</a>
-                                    </td>
-                                </tr>
-                            @endforeach
                         </tbody>
                     </table>
                     {!! $facturas->links() !!}

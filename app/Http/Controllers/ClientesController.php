@@ -6,9 +6,11 @@ use App\Models\Comuna;
 use App\Models\Region;
 use GuzzleHttp\Client;
 use App\Models\Cliente;
+use App\Models\Factura;
+use Illuminate\Http\Request;
 use App\Models\OpcionesCliente;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ClientesController extends Controller
 {
@@ -219,5 +221,40 @@ class ClientesController extends Controller
             ->where('clientes.id', $request->id_cliente)->get();
             return response()->json($clientes);
         }
+    }
+
+    public function GenerarCobranza(Request $request, $id){
+        if ($request->ajax()) {
+            $factura = new Factura();
+            $factura->cliente_id = $id;
+            $factura->forma_pago_id = $request->forma_pago_id;
+            $factura->descripcion_producto = $request->descripcion_producto;
+            $factura->cantidad_producto = $request->cantidad_producto;
+            $factura->valor_neto = $request->valor_neto;
+            $factura->iva = $request->iva;
+            $factura->valor_iva = $request->valor_iva;
+            $factura->save();
+    
+            $facturaMail = Factura::find($factura->id);
+    
+            //Generar Factura
+            $pdf = \PDF::loadView('factura.show')->setPaper("letter");
+            $path = public_path('facturas/');
+            $fileName = 'Factura #'. $factura->id . '.' . 'pdf';
+            $pdf->save($path . '/' . $fileName);
+    
+            Mail::send('factura.mail', ['factura' => $facturaMail], function ($m) use ($facturaMail, $path, $fileName) {
+                $m->from('test@mail.com', 'Name');
+                $m->to('jesus@bcasual.cl', 'Jesus');
+                $m->subject('Factura #'. $facturaMail->id );
+                $m->attach($path . '/' . $fileName);
+            });
+        }
+        
+
+        return redirect()->back();
+    }
+    public function GenerarFactura(Request $request, $id){
+        
     }
 }

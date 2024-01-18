@@ -1,8 +1,6 @@
 @extends('layouts.frontend')
 @section('title', 'Crear Factura')
 @section('content')
-<form method="POST" action="{{ route('factura.store') }}">
-    @csrf
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
@@ -20,44 +18,55 @@
                                         <th>IVA</th>
                                         <th>Monto + IVA</th>
                                         <th>Forma pago</th>
+                                        <th>Generar Doc.</th>
                                         <th>Quitar</th>
                                     </tr>
                                 </thead>
                                 <tbody id="resultado">
                                     @foreach ($clientes as $cliente)
-                                        <tr id="result-table" class="columnas-0">
-                                            <td  scope="row" class="align-middle" hidden><input type="hidden" name="cliente_id[]" value="{{$cliente->id}}"></td>
-                                            <td  scope="row" class="align-middle text-center"><input type='text' name='nombre_cliente[]' id='nombre_cliente'  class='form-control servicio mx-auto text-center' value='{{$cliente->nombre_empresa}}' style='width:220px'></td>
-                                            <td  scope="row" class="align-middle text-center"><input type='text' name='descripcion_producto[]' id='descripcion_producto'  class='form-control mx-auto text-center' value='Honorarios {{$asunto}}' style='width:220px'></td>
-                                            <td  scope="row" class="align-middle "><input type='number' name='cantidad_producto[]' id='cantidad_producto'  class='form-control cantidad mx-auto text-center cantidad_req' value='1' style='width:80px'></td>
-                                            <td  scope="row" class="align-middle"><input type='number' name='valor_neto[]' id='valor_neto_{{$cliente->id}}'  class='form-control valor_unitreq mx-auto text-center'  onkeyup="calcularIVA({{$cliente->id}});" value='0' style='width:100px'></td> 
-                                            <td  scope="row" class="align-middle"><input type='number' name='iva[]' id='iva_{{$cliente->id}}' readonly class='form-control-plaintext text-center' value='0' step='any'></td>
-                                            <td  scope="row" class="align-middle"><input type='number' name='valor_iva[]' id='valor_iva_{{$cliente->id}}' readonly class='form-control-plaintext text-center' value='0' step='any'></td>
+                                        <tr id="result-table" class="columnas-{{$cliente->id}}">
+                                            <td  scope="row" class="align-middle text-center"><input type='text' id='nombre_cliente_{{$cliente->id}}' readonly class='form-control servicio mx-auto text-center' value='{{$cliente->nombre_empresa}}' style='width:220px'></td>
+                                            <td  scope="row" class="align-middle text-center"><input type='text' id='descripcion_producto_{{$cliente->id}}'  class='form-control mx-auto text-center' value='Honorarios {{$asunto}}' style='width:220px'></td>
+                                            <td  scope="row" class="align-middle "><input type='number' id='cantidad_producto_{{$cliente->id}}'  class='form-control cantidad mx-auto text-center cantidad_req' value='1' style='width:80px'></td>
+                                            <td  scope="row" class="align-middle"><input type='number' id='valor_neto_{{$cliente->id}}'  class='form-control valor_unitreq mx-auto text-center'  onkeyup="calcularIVA({{$cliente->id}});" value='0' style='width:100px'></td> 
+                                            <td  scope="row" class="align-middle"><input type='number' id='iva_{{$cliente->id}}' readonly class='form-control-plaintext text-center' value='0' step='any'></td>
+                                            <td  scope="row" class="align-middle"><input type='number' id='valor_iva_{{$cliente->id}}' readonly class='form-control-plaintext text-center' value='0' step='any'></td>
                                             <td  scope="row" class="align-middle">
-                                                <select class="form-control" name="forma_pago_id[]" id="forma_pago_id">
+                                                <select class="form-control" id="forma_pago_id_{{$cliente->id}}">
                                                     @foreach ($forma_pago as $fp)
                                                         <option value="{{$fp->id}}">{{$fp->nombre_fp}}</option>
                                                     @endforeach
                                                 </select>
                                             </td>
-                                            <td  scope="row" class="align-middle text-center"><a class='btn btn-danger btn-sm text-white' onclick="eliminar(0)"><i class="far fa-trash-alt"></i></a></td> 
+                                            <td  scope="row" class="align-middle">
+                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                    <a href="#" id="btnFactura{{$cliente->id}}" onclick="FacturaSii({{$cliente->id}})" class="btn text-primary">Sii</a>
+                                                    <a href="#" id="btnCobranza{{$cliente->id}}" onclick="GenerarCobranza({{$cliente->id}})" class="btn text-success">Cobranza</a>
+                                                </div>
+                                            </td>
+                                            <td  scope="row" class="align-middle text-center"><a class='btn btn-danger btn-sm text-white' onclick="eliminar({{$cliente->id}})"><i class="far fa-trash-alt"></i></a></td> 
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
-                            <div class="row justify-content-center mt-4">
-                                <div class="col-sm-12">
-                                    <div>
-                                        <button type="submit" class="btn btn-primary w-md">Guardar</button>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </form>
+
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Enviando información</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Espere un momento que estamos enviando la información para generar el documento.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('styles')
@@ -66,7 +75,10 @@
 @push('script')
     <script src="{{asset('js/detallesFactura.js')}}"></script>
     <script>
-
+        function eliminar(id)
+        {
+            $('.columnas-'+id).remove();
+        }
         function calcularIVA(id)
         {
             var neto = $("#valor_neto_"+id).val();
@@ -77,7 +89,44 @@
             let iva = Math.ceil(iva_c);
             $("#valor_iva_"+id).val(isNaN(iva)? 0 : iva.toFixed(0));
         }
-
+        function GenerarCobranza(id) {
+            if($('#valor_neto_'+id).val() == 0){
+                alert('Debe colocar un monto.');
+                return false;
+            }
+            $.ajax({
+                type:'POST',
+                url:'{{url("clientes/cobranza")}}/'+id,
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "id" : id,
+                    "nombre_cliente": $('#nombre_cliente_'+id).val(),
+                    "descripcion_producto": $('#descripcion_producto_'+id).val(),
+                    "cantidad_producto": $('#cantidad_producto_'+id).val(),
+                    "valor_neto": $('#valor_neto_'+id).val(),
+                    "iva": $('#iva_'+id).val(),
+                    "valor_iva": $('#valor_iva_'+id).val(),
+                    "forma_pago_id": $('#forma_pago_id_'+id).val()
+                },
+                beforeSend: function() {
+                    $('#staticBackdrop').modal('show');
+                },
+                success:function(data) {
+                    alert('Registro enviado con exito!!');
+                    $('#btnCobranza'+id).addClass('d-none');
+                },
+                error: function (msg) {
+                    console.log(msg);
+                    var errors = msg.responseJSON;
+                },
+                complete: function() {
+                    $('#staticBackdrop').modal('hide');
+                },
+            });
+        }
+        function FacturaSii(id) {
+            alert('FALTA CONEXION CON LA API')
+        }
         // $('#region_id').on('change', function() { 
         //     var region = $(this).val();
         //     if($.trim(region) != ''){
