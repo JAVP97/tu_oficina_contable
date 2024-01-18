@@ -24,7 +24,7 @@
             <li class="nav-item  {{ request()->is('factura') ? 'mm-active' : '' }}">
                 <a class="nav-link  waves-effect {{ request()->is('factura') ? 'active' : '' }}" href="{{ route('factura.index') }}" >
                     <i class="bx bx-file-blank"></i>
-                    <span key="t-starter-page">Fracturas</span>
+                    <span key="t-starter-page">Facturas</span>
                 </a>
             </li>
 

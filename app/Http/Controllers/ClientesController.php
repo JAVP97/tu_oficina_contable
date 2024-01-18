@@ -182,7 +182,7 @@ class ClientesController extends Controller
             "apikey": "0823-W110-6387-4295-6224"
         }
         ';
-        $response = \GuzzleHttp\Psr7\Request('GET', 'https://api.simpleapi.cl/api/auth/token', [], $body);
+        $response = new \GuzzleHttp\Psr7\Request('GET', 'https://api.simpleapi.cl/api/auth/token', [], $body);
         $token = json_decode((string) $response->getBody(), true);
 
         $client2 = new Client();
