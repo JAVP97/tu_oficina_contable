@@ -1,5 +1,5 @@
 @extends('layouts.frontend')
-@section('title', 'Listado de Facturas')
+@section('title', 'Listado de Cobranzas')
 @section('content')
 
 <div class="row">
@@ -26,7 +26,7 @@
                         <tbody>
                         </tbody>
                     </table>
-                    {!! $facturas->links() !!}
+                    {!! $cobranzas->links() !!}
                 </div>
             </div>            
         </div>
@@ -52,7 +52,7 @@
      function fetch_data(page)
      {
       $.ajax({
-       url:"/factura/pagination/fetch_data?page="+page,
+       url:"/cobranza/pagination/fetch_data?page="+page,
        success:function(data)
        {
         $('#table_data').html(data);

@@ -31,7 +31,7 @@
 <body data-topbar="dark" data-layout="horizontal" data-layout-size="boxed">
 
         <div id="layout-wrapper" >
-            <header id="page-topbar" hidden>
+            <header id="page-topbar">
                 <div class="navbar-header">
                     <div class="d-flex">
                         <!-- LOGO -->

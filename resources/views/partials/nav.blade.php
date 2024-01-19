@@ -29,6 +29,27 @@
             </li>
 
             <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-uielement" role="button">
+                <i class="bx bx-file-blank"></i>
+                    <span key="t-ui-elements"> Documentos</span> 
+                    <div class="arrow-down"></div>
+                </a>
+
+                <div class="dropdown-menu mega-dropdown-menu px-2 dropdown-mega-menu-sm"
+                    aria-labelledby="topnav-uielement">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div>
+                                <a href="{{ route('factura.create') }}" class="dropdown-item {{ request()->is('factura/create') ? 'active' : '' }}" key="t-alerts"> Generar documentos</a>
+                                <a href="{{ route('factura.index') }}" class="dropdown-item {{ request()->is('factura') ? 'active' : '' }}" key="t-alerts">Listado de facturas</a>
+                                <a href="{{ route('cobranza.index') }}" class="dropdown-item {{ request()->is('cobranza') ? 'active' : '' }}" key="t-buttons">Listado de cobranzas</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </li>
+            <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-uielement" role="button"
                 >
                     <i class="bx bx-cog"></i>
