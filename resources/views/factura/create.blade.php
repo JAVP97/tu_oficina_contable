@@ -1,5 +1,5 @@
 @extends('layouts.frontend')
-@section('title', 'Crear Factura')
+@section('title', 'Crear Factura y Cobranza')
 @section('content')
     <div class="container-fluid">
         <div class="row">

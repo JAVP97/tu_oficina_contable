@@ -12,14 +12,14 @@ class CobranzaController extends Controller
     public function index()
     {
         $cobranzas = Cobranza::paginate(10);
-        return view('cobranza.index', compact('cobranzas'));
+        return view('cobranzas.index', compact('cobranzas'));
     }
     function fetch_data(Request $request)
     {
         if($request->ajax())
         {
             $cobranzas = Cobranza::paginate(10);
-            return view('cobranza.pagination_data', compact('cobranzas'))->render();
+            return view('cobranzas.pagination_data', compact('cobranzas'))->render();
         }
     }
     public function create()
@@ -32,7 +32,12 @@ class CobranzaController extends Controller
     }
     public function show(Cobranza $cobranza)
     {
-        //
+    
+        $data = Cobranza::find($cobranza->id);
+        $view =  \View::make('cobranzas.show', compact('data'))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        return $pdf->stream('Cobranza #'.$cobranza->id.'.pdf');
     }
 
     /**

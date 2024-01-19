@@ -11,6 +11,7 @@
                     <table id="laravel_datatable" class="table table-striped">
                         <thead>
                             <tr class="text-center">
+                                <th>#</th>
                                 <th>Razón Social</th>
                                 <th>Dirección</th>
                                 <th>Región</th>
@@ -24,6 +25,21 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($cobranzas as $cobranza)
+                                <tr>
+                                    <td>{{$cobranza->id}}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><a href="{{route('cobranzas.show', $cobranza->id)}}">Ver</a></td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                     {!! $cobranzas->links() !!}

@@ -7,6 +7,7 @@ use App\Models\Region;
 use GuzzleHttp\Client;
 use App\Models\Cliente;
 use App\Models\Factura;
+use App\Models\Cobranza;
 use Illuminate\Http\Request;
 use App\Models\OpcionesCliente;
 use Illuminate\Support\Facades\DB;
@@ -225,28 +226,28 @@ class ClientesController extends Controller
 
     public function GenerarCobranza(Request $request, $id){
         if ($request->ajax()) {
-            $factura = new Factura();
-            $factura->cliente_id = $id;
-            $factura->forma_pago_id = $request->forma_pago_id;
-            $factura->descripcion_producto = $request->descripcion_producto;
-            $factura->cantidad_producto = $request->cantidad_producto;
-            $factura->valor_neto = $request->valor_neto;
-            $factura->iva = $request->iva;
-            $factura->valor_iva = $request->valor_iva;
-            $factura->save();
+            $cobranza = new Cobranza();
+            $cobranza->cliente_id = $id;
+            $cobranza->forma_pago_id = $request->forma_pago_id;
+            $cobranza->descripcion = $request->descripcion_producto;
+            $cobranza->cantidad = $request->cantidad_producto;
+            $cobranza->valor_neto = $request->valor_neto;
+            $cobranza->iva = $request->iva;
+            $cobranza->valor_iva = $request->valor_iva;
+            $cobranza->save();
     
-            $facturaMail = Factura::find($factura->id);
+            $cobranzaMail = Cobranza::find($cobranza->id);
     
             //Generar Factura
-            $pdf = \PDF::loadView('factura.show')->setPaper("letter");
-            $path = public_path('facturas/');
-            $fileName = 'Factura #'. $factura->id . '.' . 'pdf';
+            $pdf = \PDF::loadView('cobranzas.show', ['cobranza' => $cobranzaMail])->setPaper("letter");
+            $path = public_path('cobranza/');
+            $fileName = 'Factura #'. $cobranza->id . '.' . 'pdf';
             $pdf->save($path . '/' . $fileName);
     
-            Mail::send('factura.mail', ['factura' => $facturaMail], function ($m) use ($facturaMail, $path, $fileName) {
+            Mail::send('cobranzas.mail', ['cobranza' => $cobranzaMail], function ($m) use ($cobranzaMail, $path, $fileName) {
                 $m->from('test@mail.com', 'Name');
                 $m->to('jesus@bcasual.cl', 'Jesus');
-                $m->subject('Factura #'. $facturaMail->id );
+                $m->subject('Factura #'. $cobranzaMail->id );
                 $m->attach($path . '/' . $fileName);
             });
         }

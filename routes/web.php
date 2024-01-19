@@ -40,5 +40,5 @@ Route::resource('empresa', App\Http\Controllers\EmpresaController::class);
 Route::resource('factura', App\Http\Controllers\FacturaController::class);
 Route::get('factura/pagination/fetch_data', [App\Http\Controllers\FacturaController::class, 'fetch_data']);
 #cobranza
-Route::resource('cobranza', App\Http\Controllers\CobranzaController::class);
+Route::resource('cobranzas', App\Http\Controllers\CobranzaController::class);
 Route::get('cobranza/pagination/fetch_data', [App\Http\Controllers\CobranzaController::class, 'fetch_data']);

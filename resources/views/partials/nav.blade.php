@@ -21,12 +21,6 @@
                     <span key="t-starter-page">Libro de Banco</span>
                 </a>
             </li>
-            <li class="nav-item  {{ request()->is('factura') ? 'mm-active' : '' }}">
-                <a class="nav-link  waves-effect {{ request()->is('factura') ? 'active' : '' }}" href="{{ route('factura.index') }}" >
-                    <i class="bx bx-file-blank"></i>
-                    <span key="t-starter-page">Facturas</span>
-                </a>
-            </li>
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-uielement" role="button">
@@ -42,7 +36,7 @@
                             <div>
                                 <a href="{{ route('factura.create') }}" class="dropdown-item {{ request()->is('factura/create') ? 'active' : '' }}" key="t-alerts"> Generar documentos</a>
                                 <a href="{{ route('factura.index') }}" class="dropdown-item {{ request()->is('factura') ? 'active' : '' }}" key="t-alerts">Listado de facturas</a>
-                                <a href="{{ route('cobranza.index') }}" class="dropdown-item {{ request()->is('cobranza') ? 'active' : '' }}" key="t-buttons">Listado de cobranzas</a>
+                                <a href="{{ route('cobranzas.index') }}" class="dropdown-item {{ request()->is('cobranzas') ? 'active' : '' }}" key="t-buttons">Listado de cobranzas</a>
                             </div>
                         </div>
                     </div>
