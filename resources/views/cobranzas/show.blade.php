@@ -85,7 +85,7 @@
         </tr>
       </table>
       <br>
-      <table  style="font-size: 10px;width:100%">
+      <table  style="font-size: 10px;width:100%"  style="border:1px solid black">
         <thead class="text-center">
           <tr style="color: #3e3676; border:1px solid black">
             <th style="border-right:1px solid black">Codigo</th>
