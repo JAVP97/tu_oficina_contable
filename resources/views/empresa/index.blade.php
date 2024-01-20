@@ -6,19 +6,16 @@
     <div class="col-md-12 col-12">
         <div class="card">
             <div class="card-body ">
-                <h4 class="card-title mb-4">Listado</h4>
+                <h4 class="card-title mb-4">Listado empresa</h4>
                 <div class="table-rep-plugin">
                     <div class="table-wrapper">
                         <div class="btn-toolbar">
                             <div class="btn-group dropdown-btn-group pull-right">
-                                @foreach($empresas as $e)
-                                    @if ($e->id == 1)
-                                        
-                                    @else
+                                @forelse($empresas as $reply)
+                                    
+                                @empty
                                     <a href="{{route('empresa.create')}}" class="btn btn-primary">Crear Empresa</a>                                
-                                        
-                                    @endif
-                                @endforeach
+                                @endforelse
                             </div>
                         </div>
                     </div>
@@ -28,6 +25,7 @@
                         <thead>
                             <tr class="text-center">
                                 <th>Razón Social</th>
+                                <th>RUT</th>
                                 <th>Dirección</th>
                                 <th>Región</th>
                                 <th>Comuna</th>
@@ -43,6 +41,7 @@
                             @foreach($empresas as $e)
                                 <tr>
                                     <td>{{ $e->razon_social }}</td>
+                                    <td>{{ $e->rut_empresa }}</td>
                                     <td>{{ $e->direccion_empresa }}</td>
                                     <td>{{ $e->regiones->name }}</td>
                                     <td>{{ $e->comuna->name }}</td>

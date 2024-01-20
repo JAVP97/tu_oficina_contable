@@ -34,10 +34,10 @@ class EmpresaController extends Controller
 
     public function store(Request $request)
     {
-        // return $request;
         $rules = array(
             'razon_social' => 'required',
-            'direccion'  => 'required',
+            'direccion_empresa'  => 'required',
+            'rut_empresa'  => 'required',
             'email_empresa' => 'required|email',
             'region_id' => 'required',
             'comuna_id' => 'required',
@@ -56,7 +56,8 @@ class EmpresaController extends Controller
             // store
             $empresa = new Empresa;
             $empresa->razon_social = $request->razon_social;
-            $empresa->direccion_empresa = $request->direccion;
+            $empresa->rut_empresa = $request->rut_empresa;
+            $empresa->direccion_empresa = $request->direccion_empresa;
             $empresa->email_empresa = $request->email_empresa;
             $empresa->region_id = $request->region_id;
             $empresa->comuna_id = $request->comuna_id;
@@ -69,36 +70,48 @@ class EmpresaController extends Controller
             return redirect('empresa')->with('success','Empresa creado con éxito..');
         }
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Empresa $empresa)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Empresa $empresa)
     {
-        //
+        $comunas = Comuna::select('id', 'name', 'region_id')->orderBy('name', 'asc')->get();
+        $regiones = Region::select('id', 'name')->orderBy('name', 'asc')->get();
+        return view('empresa.edit', compact('comunas', 'regiones', 'empresa'));
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Empresa $empresa)
     {
-        //
-    }
+        $rules = array(
+            'razon_social' => 'required',
+            'direccion_empresa'  => 'required',
+            'rut_empresa'  => 'required',
+            'email_empresa' => 'required|email',
+            'region_id' => 'required',
+            'comuna_id' => 'required',
+            'tipo_venta' => 'required',
+            'telefono_empresa' => '',
+            'giro_empresa' => 'required',
+            'act_econo_empresa' => 'required',
+        );
+        $validator = Validator::make($request->all(), $rules);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Empresa $empresa)
-    {
-        //
+        // process the login
+        if ($validator->fails()) {
+            return Redirect::to('empresa/create')
+                ->withErrors($validator);
+        } else {
+            // store
+            $empresa = Empresa::find($empresa->id);
+            $empresa->razon_social = $request->razon_social;
+            $empresa->rut_empresa = $request->rut_empresa;
+            $empresa->direccion_empresa = $request->direccion_empresa;
+            $empresa->email_empresa = $request->email_empresa;
+            $empresa->region_id = $request->region_id;
+            $empresa->comuna_id = $request->comuna_id;
+            $empresa->tipo_venta = $request->tipo_venta;
+            $empresa->telefono_empresa = $request->telefono_empresa;
+            $empresa->giro_empresa = $request->giro_empresa;
+            $empresa->act_econo_empresa = $request->act_econo_empresa;
+            $empresa->save();
+
+            return redirect('empresa')->with('success','Informacion de empresa actualizado con éxito..');
+        }
     }
 }
