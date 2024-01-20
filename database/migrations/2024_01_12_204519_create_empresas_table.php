@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('empresas', function (Blueprint $table) {
             $table->increments('id');
             $table->string('razon_social')->nullable();
+            $table->string('rut_empresa')->nullable();
+            $table->string('logo_empresa')->nullable();
             $table->string('direccion_empresa')->nullable();
             $table->integer('region_id')->unsigned();
             $table->foreign('region_id')->references('id')->on('regions');

@@ -33,8 +33,10 @@ class FacturaController extends Controller
     public function create()
     {
 
+        $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
         $date = \Carbon\Carbon::now();
-        $asunto = $date->formatLocalized('%B %Y');
+        $mes = $meses[($date->format('n')) - 1];
+        $asunto = $mes . ' ' .$date->formatLocalized('%Y');
         $clientes = Cliente::all();
         $forma_pago = FormaPago::all();
         return view('factura.create', compact('clientes', 'asunto', 'forma_pago'));

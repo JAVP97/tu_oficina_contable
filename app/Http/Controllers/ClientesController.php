@@ -239,7 +239,7 @@ class ClientesController extends Controller
             $cobranzaMail = Cobranza::find($cobranza->id);
     
             //Generar Factura
-            $pdf = \PDF::loadView('cobranzas.show', ['cobranza' => $cobranzaMail])->setPaper("letter");
+            $pdf = \PDF::loadView('cobranzas.show', ['data' => $cobranzaMail])->setPaper("letter");
             $path = public_path('cobranza/');
             $fileName = 'Factura #'. $cobranza->id . '.' . 'pdf';
             $pdf->save($path . '/' . $fileName);

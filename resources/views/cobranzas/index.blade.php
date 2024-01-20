@@ -6,38 +6,36 @@
     <div class="col-md-12 col-12">
         <div class="card">
             <div class="card-body ">
-                <h4 class="card-title mb-4">Listado</h4>
+                <h4 class="card-title mb-4">Listado de Cobranza</h4>
                 <div id="table_data">
                     <table id="laravel_datatable" class="table table-striped">
                         <thead>
                             <tr class="text-center">
                                 <th>#</th>
-                                <th>Razón Social</th>
-                                <th>Dirección</th>
-                                <th>Región</th>
-                                <th>Comuna</th>
-                                <th>Tipo Venta</th> 
-                                <th>Email</th>
-                                <th>Teléfono</th>
-                                <th>Giro</th>
-                                <th>Actividad Económica</th>
+                                <th>Fecha de creación</th>
+                                <th>Empresa</th>
+                                <th>RUT</th>
+                                <th>Forma de pago</th>
+                                <th>Descripción</th>
+                                <th>Monto neto</th> 
+                                <th>IVA</th>
+                                <th>Monto + IVA</th>
                                 <th><i class="bx bx-cog font-size-16"></i></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($cobranzas as $cobranza)
-                                <tr>
-                                    <td>{{$cobranza->id}}</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td><a href="{{route('cobranzas.show', $cobranza->id)}}">Ver</a></td>
+                                <tr class="text-center">
+                                    <th><a href="{{route('cobranzas.show', $cobranza->id)}}" target="_blanck">{{$cobranza->id}}</a></th>
+                                    <td>{{$cobranza->created_at->format('d-m-Y')}}</td>
+                                    <td>{{$cobranza->cliente->nombre_empresa}}</td>
+                                    <td>{{$cobranza->cliente->rut_empresa}}</td>
+                                    <td>{{$cobranza->formaPago->nombre_fp}}</td>
+                                    <td>{{$cobranza->descripcion}}</td>
+                                    <td>{{number_format($cobranza->valor_neto, 0, '', '.')}}</td>
+                                    <td>{{number_format($cobranza->iva, 0, '', '.')}}</td>
+                                    <td>{{number_format($cobranza->valor_iva, 0, '', '.')}}</td>
+                                    <td><a href="{{route('cobranzas.show', $cobranza->id)}}" target="_blanck">Ver</a></td>
                                 </tr>
                             @endforeach
                         </tbody>

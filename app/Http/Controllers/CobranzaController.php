@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
+use App\Models\Empresa;
 use App\Models\Cobranza;
 use App\Models\FormaPago;
 use Illuminate\Http\Request;
@@ -34,10 +35,11 @@ class CobranzaController extends Controller
     {
     
         $data = Cobranza::find($cobranza->id);
-        $view =  \View::make('cobranzas.show', compact('data'))->render();
+        $empresa = Empresa::find(1);
+        $view =  \View::make('cobranzas.show', compact('data', 'empresa'))->render();
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
-        return $pdf->stream('Cobranza #'.$cobranza->id.'.pdf');
+        return $pdf->stream('Cobranza '. $empresa->razon_social .'#'.$cobranza->id.'.pdf');
     }
 
     /**

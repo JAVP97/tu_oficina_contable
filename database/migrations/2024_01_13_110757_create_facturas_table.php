@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('facturas', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('num_factura')->nullable()->default(0);
             $table->integer('cliente_id')->unsigned();
             $table->foreign('cliente_id')->references('id')->on('clientes');
             $table->integer('forma_pago_id')->unsigned();

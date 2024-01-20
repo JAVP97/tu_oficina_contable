@@ -16,6 +16,7 @@ return new class extends Migration
             $table->enum('personalidad', ['Natural'])->nullable()->default('Natural');
             $table->string('nombre_empresa', 100)->nullable();
             $table->string('rut_empresa', 100)->unique();
+            $table->string('giro_cliente', 100)->unique();
             $table->string('profesion', 100)->nullable();
             $table->string('direccion', 100)->nullable();
             $table->integer('region_id')->unsigned();
