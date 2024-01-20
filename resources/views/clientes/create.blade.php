@@ -31,6 +31,7 @@
 @endpush
 
 @push('script')
+<script src="{{asset('js/jquery.rut.js')}}"></script>
     <script>
         $('#region_id').on('change', function() { 
             var region = $(this).val();

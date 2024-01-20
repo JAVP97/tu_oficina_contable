@@ -31,7 +31,7 @@
                                 <th>Teléfono</th>
                                 <th>Pass SII</th>
                                 <th>Tasa PPM</th>
-                                <th>Fecha cobro</th>
+                                <th>Frecuencia cobro</th>
                                 <th><i class="bx bx-cog font-size-16"></i></th>
                             </tr>
                         </thead>
@@ -49,7 +49,7 @@
                                     <td>{{ $cliente->telefono }}</td>
                                     <td>{{ $cliente->pass_sii }}</td>
                                     <td>{{ $cliente->tasa_ppm }}</td>
-                                    <td>{{ $cliente->fecha_cobro }}</td>
+                                    <td>{{ $cliente->frecuencia_cobro }}</td>
                                     <td>
                                         <a href="#" class="editarCliente" id="{{ $cliente->id }}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="bx bx-edit"></i></a>
                                         <a href="#" class="eliminarCliente text-danger" id="{{ $cliente->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar"><i class="bx bx-shield"></i></a>
@@ -98,5 +98,6 @@
 @endpush
 
 @push('script')
+    <script src="{{asset('js/jquery.rut.js')}}"></script>
     <script src="{{asset('js/clientes/index.js')}}"></script>
 @endpush

@@ -46,7 +46,8 @@ function editarCliente(id) {
                 //Set info en formulario para Editar
                 $("#personalidad").val(data.personalidad);
                 $("#nombre_empresa").val(data.nombre_empresa);
-                $("#rut_empresa").val(data.rut_empresa);
+                $("#giro_cliente").val(data.giro_cliente);
+                $("#rut").val(data.rut_empresa);
                 $("#profesion").val(data.profesion);
                 $("#direccion").val(data.direccion);
                 $("#region_id").val(data.region_id);
@@ -55,7 +56,7 @@ function editarCliente(id) {
                 $("#comentario").val(data.comentario);
                 $("#pass_sii").val(data.pass_sii);
                 $("#tasa_ppm").val(data.tasa_ppm);
-                $("#fecha_cobro").val(data.fecha_cobro);
+                $("#frecuencia_cobro").val(data.frecuencia_cobro);
                 $("#email").val(data.email);
                 $("#exento_iva").val(data.exento_iva);
                 $("#importaciones").val(data.importaciones);
@@ -76,7 +77,8 @@ function editarCliente(id) {
                             "_token":  $('meta[name="csrf-token"]').attr('content'),
                             personalidad: $("#personalidad").val(),
                             nombre_empresa: $("#nombre_empresa").val(),
-                            rut_empresa: $("#rut_empresa").val(),
+                            giro_cliente: $("#giro_cliente").val(),
+                            rut_empresa: $("#rut").val(),
                             profesion: $("#profesion").val(),
                             direccion: $("#direccion").val(),
                             region_id: $("#region_id").val(),
@@ -85,7 +87,7 @@ function editarCliente(id) {
                             telefono: $("#telefono").val(),
                             pass_sii: $("#pass_sii").val(),
                             tasa_ppm: $("#tasa_ppm").val(),
-                            fecha_cobro: $("#fecha_cobro").val(),
+                            frecuencia_cobro: $("#frecuencia_cobro").val(),
                         },
                         success : function(response){
                             $('#editModal').modal('toggle');
@@ -94,7 +96,7 @@ function editarCliente(id) {
                         complete : function(xhr, status) {
                             //$('#laravel_datatable').DataTable().ajax.reload(null, false);
                             //Recargamos la pagina
-                            window.location.reload();
+                             window.location.reload();
                         }
                     });
                 });

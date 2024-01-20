@@ -21,8 +21,19 @@
     </div>
 </div>
 <div class="col-12 col-md-3">
+    <label for="giro_cliente" class="col-form-label">Giro empresa</label>
+    <div class="form-group">
+        <input type="text" class="form-control @error('giro_cliente') is-invalid @enderror"
+            id="giro_cliente" name="giro_cliente" value="{{ old('giro_cliente') }}"
+            placeholder="Nombre empresa" required>
+        @error('giro_cliente')
+            <span class="error invalid-feedback">{{ $message }}</span>
+        @enderror
+    </div>
+</div>
+<div class="col-12 col-md-3">
     <label for="rut" class="col-form-label">RUT</label>
-    <input class="form-control" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" name="rut_empresa" id="rut_empresa" @error('rut_empresa') is-invalid @enderror" value="{{ old('rut_empresa') }}" type="text" required>
+    <input class="form-control" name="rut_empresa" id="rut" @error('rut_empresa') is-invalid @enderror" value="{{ old('rut_empresa') }}" type="text" required>
     @error('rut_empresa')
         <span class="error invalid-feedback">{{ $message }}</span>
     @enderror
@@ -126,12 +137,15 @@
 <hr>
 <h5 class="card-title mb-4">Caracteristicas</h5>
 <div class="col-12 col-md-3">
-    <label for="fecha_cobro" class="col-form-label">Fecha de cobro</label>
+    <label for="frecuencia_cobro" class="col-form-label">Frecuencia de cobro</label>
     <div class="form-group">
-        <input type="date" class="form-control @error('fecha_cobro') is-invalid @enderror"
-            id="fecha_cobro" name="fecha_cobro" value="{{ old('fecha_cobro') }}"
-            required>
-        @error('fecha_cobro')
+        <select name="frecuencia_cobro" id="frecuencia_cobro" required class="form-control  @error('frecuencia_cobro') is-invalid @enderror">
+            <option value="Diario" {{ old('frecuencia_cobro') == 'Diario' ? "selected" : "" }}>Diario</option>
+            <option value="Semanal" {{ old('frecuencia_cobro') == 'Semanal' ? "selected" : "" }}>Semanal</option>
+            <option value="Quincenal" {{ old('frecuencia_cobro') == 'Quincenal' ? "selected" : "" }}>Quincenal</option>
+            <option value="Mensual" {{ old('frecuencia_cobro') == 'Mensual' ? "selected" : "" }}>Mensual</option>
+        </select>
+        @error('frecuencia_cobro')
             <span class="error invalid-feedback">{{ $message }}</span>
         @enderror
     </div>

@@ -51,6 +51,7 @@ class ClientesController extends Controller
             'personalidad' => 'required',
             'nombre_empresa' => 'required',
             'rut_empresa' => 'required|unique:clientes',
+            'giro_cliente' => 'required',
             'profesion' => 'required',
             'direccion' => 'required',
             'region_id' => 'required',
@@ -59,11 +60,12 @@ class ClientesController extends Controller
             'telefono' => 'required',
             'pass_sii' => 'required',
             'tasa_ppm' => 'required',
-            'fecha_cobro' => 'required',
+            'frecuencia_cobro' => 'required',
             
         ], [
             'personalidad.required' => 'Razon Social es requerido',
             'nombre_empresa' => 'Nombre de la empresa es requerido',
+            'giro_cliente' => 'Giro de la empresa es requerido',
             'rut_cliente.required' => 'RUT es requerido',
             'rut_cliente.unique' => 'El cliente ya existe con este rut',
             'rutdv_cliente.required' => 'Dígito verificador es requerido',
@@ -74,7 +76,7 @@ class ClientesController extends Controller
             'comentario.required' => 'Comentario es requerido',
             'telefono.required' => 'Tlf es requerido',
             'pass_sii.required' => 'Contraseña SII es requerido',
-            'fecha_cobro.required' => 'Fecha de Cobro es requerido',
+            'frecuencia_cobro.required' => 'Fecha de Cobro es requerido',
         ]);
 
         $cliente = Cliente::create($validatedData);
@@ -118,11 +120,11 @@ class ClientesController extends Controller
     {
         if ($request->ajax()) 
         {
-            //
             $validatedData = $request->validate([
                 'personalidad' => 'required',
                 'nombre_empresa' => 'required',
                 'rut_empresa' => 'required|unique:clientes,rut_empresa,'.$id,
+                'giro_cliente' => 'required',
                 'profesion' => 'required',
                 'direccion' => 'required',
                 'region_id' => 'required',
@@ -131,12 +133,13 @@ class ClientesController extends Controller
                 'telefono' => 'required',
                 'pass_sii' => 'required',
                 'tasa_ppm' => 'required',
-                'fecha_cobro' => 'required',
+                'frecuencia_cobro' => 'required',
                 
             ], [
                 'personalidad.required' => 'Razon Social es requerido',
                 'nombre_empresa' => 'Nombre de la empresa es requerido',
                 'rut_cliente.required' => 'RUT es requerido',
+                'giro_cliente' => 'Giro del cliente es requerido',
                 'rut_cliente.unique' => 'El cliente ya existe con este rut',
                 'rutdv_cliente.required' => 'Dígito verificador es requerido',
                 'profesion.required' => 'Profesion es requerido',
@@ -145,8 +148,8 @@ class ClientesController extends Controller
                 'comuna_id.required' => 'Comuna es requerido',
                 'comentario.required' => 'Comentario es requerido',
                 'telefono.required' => 'Tlf es requerido',
-                'pass_sii.required' => 'Tlf es requerido',
-                'fecha_cobro.required' => 'Tlf es requerido',
+                'pass_sii.required' => 'Contraseña SII es requerido',
+                'frecuencia_cobro.required' => 'Fecha de Cobro es requerido',
             ]);
 
             $cliente = Cliente::find($id);

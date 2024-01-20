@@ -118,10 +118,10 @@
             <td>-</td>
             <td>{{$data->descripcion}}</td>
             <td>{{$data->cantidad}}</td>
-            <td>{{number_format($data->valor_neto, 0, '.', ' ')}}</td>
+            <td>{{number_format($data->valor_neto, 0, '', '.')}}</td>
             <td>-</td>
             <td>-</td>
-            <td>{{number_format($data->valor_neto, 0, '.', ' ')}}</td>
+            <td>{{number_format($data->valor_neto, 0, '', '.')}}</td>
           </tr>
         </tbody>
       </table>
@@ -142,19 +142,19 @@
             <table width="100%" style="text-align: right">
               <tr>
                 <th style="color: #3e3676">MONTO NETO $</th>
-                <td style="text-align: left !important; padding-left: 20px">{{number_format($data->valor_neto, 0, '.', ' ')}}</td>
+                <td style="text-align: left !important; padding-left: 20px">{{number_format($data->valor_neto, 0, '', '.')}}</td>
               </tr>
               <tr>
                 <th style="color: #3e3676">I.V.A. 19% $</th>
-                <td style="text-align: left !important; padding-left: 20px">{{number_format($data->iva, 0, '.', ' ')}}</td>
+                <td style="text-align: left !important; padding-left: 20px">{{number_format($data->iva, 0, '', '.')}}</td>
               </tr>
               <tr>
                 <th style="color: #3e3676">IMPUESTO ADICIONAL $</th>
-                <td style="text-align: left !important; padding-left: 20px">{{number_format(0, 0, '.', ' ')}}</td>
+                <td style="text-align: left !important; padding-left: 20px">{{number_format(0, 0, '', '.')}}</td>
               </tr>
               <tr>
                 <th style="color: #3e3676">TOTAL $</th>
-                <td style="text-align: left !important; padding-left: 20px">{{number_format($data->valor_iva, 0, '.', ' ')}}</td>
+                <td style="text-align: left !important; padding-left: 20px">{{number_format($data->valor_iva, 0, '', '.')}}</td>
               </tr>
             </table>
           </td>
