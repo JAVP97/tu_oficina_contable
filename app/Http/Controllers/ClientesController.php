@@ -6,6 +6,7 @@ use App\Models\Comuna;
 use App\Models\Region;
 use GuzzleHttp\Client;
 use App\Models\Cliente;
+use App\Models\Empresa;
 use App\Models\Factura;
 use App\Models\Cobranza;
 use Illuminate\Http\Request;
@@ -242,14 +243,14 @@ class ClientesController extends Controller
             $cobranzaMail = Cobranza::find($cobranza->id);
     
             //Generar Factura
-            $pdf = \PDF::loadView('cobranzas.show', ['data' => $cobranzaMail])->setPaper("letter");
+            $pdf = \PDF::loadView('cobranzas.show', ['data' => $cobranzaMail, 'empresa' => Empresa::find(1)])->setPaper("letter");
             $path = public_path('cobranza/');
-            $fileName = 'Cobranza '. $cobranza->cliente->razon_social .' #'. $cobranza->id . '.' . 'pdf';
+            $fileName = 'Cobranza '. $cobranzaMail->cliente->nombre_empresa .' #'. $cobranza->id . '.' . 'pdf';
             $pdf->save($path . '/' . $fileName);
-            Mail::send('cobranzas.mail', ['cobranza' => $cobranzaMail], function ($m) use ($cobranzaMail, $path, $fileName) {
+            Mail::send('cobranzas.mail', ['data' => $cobranzaMail, 'empresa' => Empresa::find(1)], function ($m) use ($cobranzaMail, $path, $fileName) {
                 $m->from('test@mail.com', 'Name');
                 $m->to('jesus@bcasual.cl', 'Jesus');
-                $m->subject('Cobranza '. $cobranza->cliente->razon_social .' #'. $cobranza->id );
+                $m->subject('Cobranza '. $cobranzaMail->cliente->nombre_empresa .' #'. $cobranzaMail->id );
                 $m->attach($path . '/' . $fileName);
             });
         }
