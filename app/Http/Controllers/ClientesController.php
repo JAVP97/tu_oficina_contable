@@ -244,13 +244,12 @@ class ClientesController extends Controller
             //Generar Factura
             $pdf = \PDF::loadView('cobranzas.show', ['data' => $cobranzaMail])->setPaper("letter");
             $path = public_path('cobranza/');
-            $fileName = 'Factura #'. $cobranza->id . '.' . 'pdf';
+            $fileName = 'Cobranza '. $cobranza->cliente->razon_social .' #'. $cobranza->id . '.' . 'pdf';
             $pdf->save($path . '/' . $fileName);
-    
             Mail::send('cobranzas.mail', ['cobranza' => $cobranzaMail], function ($m) use ($cobranzaMail, $path, $fileName) {
                 $m->from('test@mail.com', 'Name');
                 $m->to('jesus@bcasual.cl', 'Jesus');
-                $m->subject('Factura #'. $cobranzaMail->id );
+                $m->subject('Cobranza '. $cobranza->cliente->razon_social .' #'. $cobranza->id );
                 $m->attach($path . '/' . $fileName);
             });
         }

@@ -25,7 +25,7 @@ class CobranzaController extends Controller
     }
     public function create()
     {
-
+        
     }
     public function store(Request $request)
     {
@@ -33,9 +33,10 @@ class CobranzaController extends Controller
     }
     public function show(Cobranza $cobranza)
     {
-    
+        
         $data = Cobranza::find($cobranza->id);
         $empresa = Empresa::find(1);
+        // return view('cobranzas.mail', compact('data', 'empresa'));
         $view =  \View::make('cobranzas.show', compact('data', 'empresa'))->render();
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadHTML($view);
