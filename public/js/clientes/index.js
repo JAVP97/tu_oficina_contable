@@ -63,6 +63,8 @@ function editarCliente(id) {
                 $("#remuneraciones").val(data.remuneraciones);
                 $("#contabilidad").val(data.contabilidad);
                 $("#facturacion").val(data.facturacion);
+                $("#status_cliente").val(data.status);
+                $("#monto_base").val(data.monto_base);
                 //Abro modal
                 $('#editModal').modal('show');
                 
@@ -88,6 +90,8 @@ function editarCliente(id) {
                             pass_sii: $("#pass_sii").val(),
                             tasa_ppm: $("#tasa_ppm").val(),
                             frecuencia_cobro: $("#frecuencia_cobro").val(),
+                            status: $("#status_cliente").val(),
+                            monto_base: $("#monto_base").val(),
                         },
                         success : function(response){
                             $('#editModal').modal('toggle');
@@ -96,7 +100,7 @@ function editarCliente(id) {
                         complete : function(xhr, status) {
                             //$('#laravel_datatable').DataTable().ajax.reload(null, false);
                             //Recargamos la pagina
-                             window.location.reload();
+                            window.location.reload();
                         }
                     });
                 });

@@ -13,7 +13,7 @@ class Cliente extends Model
 
     protected $table = 'clientes';
     protected $primaryKey = 'id';
-    protected $fillable = ['personalidad', 'nombre_empresa', 'rut_empresa', 'giro_cliente', 'profesion', 'direccion', 'region_id', 'comuna_id', 'comentario', 'telefono', 'pass_sii', 'tasa_ppm', 'frecuencia_cobro'];
+    protected $fillable = ['personalidad', 'nombre_empresa', 'rut_empresa', 'giro_cliente', 'profesion', 'direccion', 'region_id', 'comuna_id', 'comentario', 'telefono', 'pass_sii', 'tasa_ppm', 'frecuencia_cobro', 'status', 'monto_base'];
 
     public function regiones()
     {

@@ -62,6 +62,8 @@ class ClientesController extends Controller
             'pass_sii' => 'required',
             'tasa_ppm' => 'required',
             'frecuencia_cobro' => 'required',
+            'status' => 'required',
+            'monto_base' => 'required',
             
         ], [
             'personalidad.required' => 'Razon Social es requerido',
@@ -78,6 +80,8 @@ class ClientesController extends Controller
             'telefono.required' => 'Tlf es requerido',
             'pass_sii.required' => 'Contraseña SII es requerido',
             'frecuencia_cobro.required' => 'Fecha de Cobro es requerido',
+            'monto_base.required' => 'Monto base CLP es requerido',
+            'status.required' => 'Estatus de cliente es requerido',
         ]);
 
         $cliente = Cliente::create($validatedData);
@@ -135,6 +139,8 @@ class ClientesController extends Controller
                 'pass_sii' => 'required',
                 'tasa_ppm' => 'required',
                 'frecuencia_cobro' => 'required',
+                'status' => 'required',
+                'monto_base' => 'required',
                 
             ], [
                 'personalidad.required' => 'Razon Social es requerido',
@@ -151,6 +157,8 @@ class ClientesController extends Controller
                 'telefono.required' => 'Tlf es requerido',
                 'pass_sii.required' => 'Contraseña SII es requerido',
                 'frecuencia_cobro.required' => 'Fecha de Cobro es requerido',
+                'monto_base.required' => 'Monto base CLP es requerido',
+                'status.required' => 'Estatus de cliente es requerido',
             ]);
 
             $cliente = Cliente::find($id);

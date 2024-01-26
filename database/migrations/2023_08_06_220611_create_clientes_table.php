@@ -27,7 +27,9 @@ return new class extends Migration
             $table->string('telefono', 100)->nullable();
             $table->string('pass_sii', 100)->nullable();
             $table->string('tasa_ppm', 100)->nullable();
-            $table->enum('frecuencia_cobro', ['Diario', 'Semanal', 'Quincenal', 'Mensual'])->default(['Mensual']);
+            $table->enum('frecuencia_cobro', ['Diario', 'Semanal', 'Quincenal', 'Mensual'])->default('Mensual');
+            $table->enum('status', ['Activo', 'Inactivo'])->default('Activo');
+            $table->integer('monto_base')->default(0);
             $table->timestamps();
         });
     }

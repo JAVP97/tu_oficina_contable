@@ -99,13 +99,37 @@
         @enderror
     </div>
 </div>
-<div class="col-12 col-md-6">
+<div class="col-12 col-md-4">
     <label for="comentario" class="col-form-label">Comentario</label>
     <div class="form-group">
         <input type="text" class="form-control @error('comentario') is-invalid @enderror"
             id="comentario" name="comentario" value="{{ old('comentario') }}"
             required>
         @error('comentario')
+            <span class="error invalid-feedback">{{ $message }}</span>
+        @enderror
+    </div>
+</div>
+<div class="col-12 col-md-4">
+    <label for="monto_base" class="col-form-label">Monto base CLP</label>
+    <div class="form-group">
+        <input type="number" class="form-control @error('monto_base') is-invalid @enderror"
+            id="monto_base" name="monto_base" value="{{ old('monto_base') }}"
+            required>
+        @error('monto_base')
+            <span class="error invalid-feedback">{{ $message }}</span>
+        @enderror
+    </div>
+</div>
+<div class="col-12 col-md-4">
+    <label for="status" class="col-form-label">Estatus de Cliente</label>
+    <div class="form-group">
+        <select name="status" id="status_cliente" class="form-control">
+            <option value="Activo">Activo</option>
+            <option value="Inactivo">Inactivo</option>
+        </select>
+            <small>En esta opción se puede deshabilitar el cliente</small>
+        @error('status')
             <span class="error invalid-feedback">{{ $message }}</span>
         @enderror
     </div>
