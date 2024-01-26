@@ -3,6 +3,24 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                            <form action="{{route('periodo.store')}}" method="POST" class="row">
+                                @csrf
+                                <div class="col-4">
+                                    <label for="periodo">Periodo</label>
+                                    <input type="month" name="periodo" id="periodo" class="form-control">
+                                </div>
+                                <div class="col-4">
+                                    <button type="submit" class="btn btn-success mt-4">Generar</button>
+                                </div>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-lg-12">
                     <!-- end card -->
                     <div class="card">
