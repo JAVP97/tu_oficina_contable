@@ -8,8 +8,10 @@ use App\Models\Region;
 use App\Models\Cliente;
 use App\Models\Empresa;
 use App\Models\Factura;
+use App\Models\Periodo;
 use App\Models\FormaPago;
 use Illuminate\Http\Request;
+use App\Models\ClientePeriodo;
 use Illuminate\Support\Facades\Mail;
 
 class FacturaController extends Controller
@@ -32,14 +34,11 @@ class FacturaController extends Controller
      */
     public function create()
     {
-
-        $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-        $date = \Carbon\Carbon::now();
-        $mes = $meses[($date->format('n')) - 1];
-        $asunto = $mes . ' ' .$date->formatLocalized('%Y');
         $clientes = Cliente::all();
         $forma_pago = FormaPago::all();
-        return view('factura.create', compact('clientes', 'asunto', 'forma_pago'));
+        $clientePeriodos = ClientePeriodo::all();
+        $periodos = Periodo::orderBy('periodo', 'desc')->get();
+        return view('factura.create', compact('clientes', 'forma_pago', 'clientePeriodos', 'periodos'));
     }
 
     /**

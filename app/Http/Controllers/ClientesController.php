@@ -10,6 +10,7 @@ use App\Models\Empresa;
 use App\Models\Factura;
 use App\Models\Cobranza;
 use Illuminate\Http\Request;
+use App\Models\ClientePeriodo;
 use App\Models\OpcionesCliente;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -237,6 +238,7 @@ class ClientesController extends Controller
     }
 
     public function GenerarCobranza(Request $request, $id){
+        
         if ($request->ajax()) {
             $cobranza = new Cobranza();
             $cobranza->cliente_id = $id;
@@ -247,24 +249,13 @@ class ClientesController extends Controller
             $cobranza->iva = $request->iva;
             $cobranza->valor_iva = $request->valor_iva;
             $cobranza->save();
-    
-            $cobranzaMail = Cobranza::find($cobranza->id);
-    
-            //Generar Factura
-            $pdf = \PDF::loadView('cobranzas.show', ['data' => $cobranzaMail, 'empresa' => Empresa::find(1)])->setPaper("letter");
-            $path = public_path('cobranza/');
-            $fileName = 'Cobranza '. $cobranzaMail->cliente->nombre_empresa .' #'. $cobranza->id . '.' . 'pdf';
-            $pdf->save($path . '/' . $fileName);
-            Mail::send('cobranzas.mail', ['data' => $cobranzaMail, 'empresa' => Empresa::find(1)], function ($m) use ($cobranzaMail, $path, $fileName) {
-                $m->from('test@mail.com', 'Name');
-                $m->to('jesus@bcasual.cl', 'Jesus');
-                $m->subject('Cobranza '. $cobranzaMail->cliente->nombre_empresa .' #'. $cobranzaMail->id );
-                $m->attach($path . '/' . $fileName);
-            });
-        }
-        
+            
+            $clientePeriodos = ClientePeriodo::find($request->cliente_periodo_id);
+            $clientePeriodos->cobranza_id = $cobranza->id;
+            $clientePeriodos->save();
 
-        return redirect()->back();
+            return response()->json($cobranza->id);
+        }
     }
     public function GenerarFactura(Request $request, $id){
         

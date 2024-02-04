@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Periodo;
 use Illuminate\Http\Request;
+use App\Models\ClientePeriodo;
 
 class PeriodoController extends Controller
 {
@@ -28,14 +29,26 @@ class PeriodoController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request;
         $validatedData = $request->validate([
-            'periodo' => 'required',
+            'periodo' => 'required|unique:periodos',
             
         ], [
             'periodo.required' => 'Periodo es requerido',
         ]);
 
         $periodo = Periodo::create($validatedData);
+
+        $longitud = count($request->cliente_id);
+
+        for($i=0; $i<$longitud; $i++)
+        {
+            $cliente_periodo = new ClientePeriodo();
+            $cliente_periodo->periodo_id = $periodo->id;
+            $cliente_periodo->cliente_id = $request->cliente_id[$i];
+            $cliente_periodo->save();
+        }
+
         return redirect()->back()->with('success','Periodo creado con éxito..');
     }
 

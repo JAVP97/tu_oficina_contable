@@ -99,7 +99,6 @@
             <div class="main-content">
 
                 <div class="page-content">
-                    <div class="container-fluid">
                         @if ($errors->any())
                             <div class="alert alert-danger">
                                 <ul>
@@ -110,7 +109,6 @@
                             </div>
                         @endif
                         @yield('content')
-                    </div>
                     <!-- container-fluid -->
                 </div>
                 <!-- End Page-content -->

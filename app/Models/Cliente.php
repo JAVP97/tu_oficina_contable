@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Comuna;
 use App\Models\Region;
+use App\Models\ClientePeriodo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -22,5 +23,9 @@ class Cliente extends Model
     public function comuna()
     {
         return $this->belongsTo(Comuna::class, 'comuna_id');
+    }
+    public function clientes_periodos()
+    {
+        return $this->hasMany(ClientePeriodo::class, 'cliente_id');
     }
 }

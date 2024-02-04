@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('periodos', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->char('periodo', 7);
             $table->enum('periodo_cerrado', ['Si', 'No'])->default('No');
             $table->timestamps();

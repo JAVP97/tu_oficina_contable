@@ -42,5 +42,6 @@ Route::get('factura/pagination/fetch_data', [App\Http\Controllers\FacturaControl
 #cobranza
 Route::resource('cobranzas', App\Http\Controllers\CobranzaController::class);
 Route::get('cobranza/pagination/fetch_data', [App\Http\Controllers\CobranzaController::class, 'fetch_data']);
+Route::get('cobranza/enviar-mail/{id}', [App\Http\Controllers\CobranzaController::class, 'EnviarMailCobranza'])->name('send.cobranza');
 #Periodo
 Route::resource('periodo', App\Http\Controllers\PeriodoController::class);
