@@ -66,7 +66,8 @@
                                                         @foreach ($clientePeriodos as $item)
                                                             @if ($periodo->id == $item->periodo_id)
                                                                 <tr id="result-table" class="columnas-{{$item->clientes->id}}_{{$periodo->id}}">
-                                                                    <td  hidden><input type="text" id='cliente_periodo_id_{{$item->clientes->id}}_{{$periodo->id}}' value="{{$item->id}}"></td>
+                                                                    <td hidden><input type="text" id='cliente_periodo_id_{{$item->clientes->id}}_{{$periodo->id}}' value="{{$item->id}}"></td>
+                                                                    <td><input type="checkbox" id='exento_{{$item->clientes->id}}_{{$periodo->id}}' onchange="exentoChequeo({{$item->clientes->id}}, {{$periodo->id}})"></td>
                                                                     <td  scope="row" class="align-middle text-center"><input type='text' id='nombre_cliente_{{$item->clientes->id}}_{{$periodo->id}}' readonly class='form-control servicio mx-auto text-center' value='{{$item->clientes->nombre_empresa}}' ></td>
                                                                     <td  scope="row" class="align-middle text-center"><input type='text' id='descripcion_producto_{{$item->clientes->id}}_{{$periodo->id}}'  class='form-control mx-auto text-center' value='Honorarios {{$asunto}} {{$periodo_num[0]}}' ></td>
                                                                     <td  scope="row" class="align-middle "><input type='text' id='cantidad_producto_{{$item->clientes->id}}_{{$periodo->id}}' style="width: 50px;" class='form-control cantidad mx-auto text-center cantidad_req' value='1' readonly></td>
@@ -133,8 +134,11 @@
             if ($('#exento_'+id+'_'+periodoid).is( ":checked" )) {
                 $("#valor_neto_"+id+'_'+periodoid).removeAttr("onkeyup");
                 $("#btnFactura"+id+'_'+periodoid).addClass("d-none");
+                $("#iva_"+id+'_'+periodoid).val(0);
+                $("#valor_iva_"+id+'_'+periodoid).val(0);
 
             }else{
+                calcularIVA(id, periodoid);
                 $("#valor_neto_"+id+'_'+periodoid).attr('onkeyup','calcularIVA('+id+','+periodoid+')');
                 $("#btnFactura"+id+'_'+periodoid).removeClass("d-none");
             }
