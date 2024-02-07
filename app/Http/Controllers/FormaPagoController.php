@@ -56,4 +56,10 @@ class FormaPagoController extends Controller
            return $m_mone;
         }
     }
+
+    public function formasPagagosJson()
+    {
+        $forma_pago = FormaPago::all();
+        return response()->json($forma_pago);
+    }
 }

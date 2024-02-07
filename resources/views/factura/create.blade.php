@@ -48,6 +48,7 @@
                                         </h2>
                                         <div id="collapse{{$periodo->id}}" class="accordion-collapse collapse" aria-labelledby="heading{{$periodo->id}}" data-bs-parent="#accordionExample" style="">
                                             <div class="accordion-body text-black">
+                                                <input type="hidden" id="conceto{{$periodo->id}}" value="{{$asunto}} {{$periodo_num[0]}}">
                                                 <table id="tabla" class="table text-center table-bordered  mt-5">
                                                     <thead class="text-center">
                                                         <tr>
@@ -63,42 +64,7 @@
                                                             <th>Quitar</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody id="resultado">
-                                                        @foreach ($clientePeriodos as $item)
-                                                            @if ($periodo->id == $item->periodo_id)
-                                                                <tr id="result-table" class="columnas-{{$item->clientes->id}}_{{$periodo->id}}">
-                                                                    <td hidden><input type="text" id='cliente_periodo_id_{{$item->clientes->id}}_{{$periodo->id}}' value="{{$item->id}}"></td>
-                                                                    <td><input type="checkbox" id='exento_{{$item->clientes->id}}_{{$periodo->id}}' onchange="exentoChequeo({{$item->clientes->id}}, {{$periodo->id}})"></td>
-                                                                    <td  scope="row" class="align-middle text-center"><input type='text' id='nombre_cliente_{{$item->clientes->id}}_{{$periodo->id}}' readonly class='form-control servicio mx-auto text-center' value='{{$item->clientes->nombre_empresa}}' ></td>
-                                                                    <td  scope="row" class="align-middle text-center"><input type='text' id='descripcion_producto_{{$item->clientes->id}}_{{$periodo->id}}'  class='form-control mx-auto text-center' value='Honorarios {{$asunto}} {{$periodo_num[0]}}' ></td>
-                                                                    <td  scope="row" class="align-middle "><input type='text' id='cantidad_producto_{{$item->clientes->id}}_{{$periodo->id}}' style="width: 50px;" class='form-control cantidad mx-auto text-center cantidad_req' value='1' readonly></td>
-                                                                    <td  scope="row" class="align-middle"><input type='number' id='valor_neto_{{$item->clientes->id}}_{{$periodo->id}}'  style="width: 100px;" class='form-control valor_unitreq mx-auto text-center'  onkeyup="calcularIVA({{$item->clientes->id}}, {{$periodo->id}});" value='{{$item->clientes->monto_base}}'></td> 
-                                                                    <td  scope="row" class="align-middle"><input type='text' id='iva_{{$item->clientes->id}}_{{$periodo->id}}' readonly style="width: 80px;" class='form-control-plaintext text-center' value='0' step='any'></td>
-                                                                    <td  scope="row" class="align-middle"><input type='text' id='valor_iva_{{$item->clientes->id}}_{{$periodo->id}}' readonly style="width: 80px;" class='form-control-plaintext text-center' value='0' step='any'></td>
-                                                                    <td  scope="row" class="align-middle">
-                                                                        <select class="form-control" id="forma_pago_id_{{$item->clientes->id}}_{{$periodo->id}}">
-                                                                            @foreach ($forma_pago as $fp)
-                                                                                <option value="{{$fp->id}}">{{$fp->nombre_fp}}</option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                    </td>
-                                                                    <td  scope="row" class="align-middle">
-                                                                        <div class="btn-group" role="group" aria-label="Basic example">
-                                                                            <span class="btn text-black d-none" id="idcobranza_{{$item->clientes->id}}_{{$periodo->id}}"></span>
-                                                                            @if ($item->cobranza_id > 0)
-                                                                                <span class="btn text-black">{{$item->cobranza_id}}</span>
-                                                                                <a href="{{route('send.cobranza', $item->cobranza_id)}}" class="btn text-success">Enviar C.</a>
-                                                                            @else
-                                                                                <a href="#" id="btnCobranza{{$item->clientes->id}}_{{$periodo->id}}" onclick="GenerarCobranza({{$item->clientes->id}}, {{$periodo->id}})" class="btn text-success">Cobranza</a>
-                                                                            @endif
-
-                                                                            <a href="#" id="btnFactura{{$item->clientes->id}}_{{$periodo->id}}" onclick="FacturaSii({{$item->clientes->id}}, {{$periodo->id}})" class="btn text-primary">Sii</a>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td  scope="row" class="align-middle text-center"><a class='btn btn-danger btn-sm text-white' onclick="eliminar({{$item->clientes->id}}, {{$periodo->id}})"><i class="far fa-trash-alt"></i></a></td> 
-                                                                </tr>
-                                                            @endif
-                                                        @endforeach
+                                                    <tbody id="resultado{{$periodo->id}}">
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -131,6 +97,76 @@
 @push('script')
     <script src="{{asset('js/detallesFactura.js')}}"></script>
     <script>
+        $(document).ready(async ()=>{
+            await traerFormasPagos();
+            listadoClientesPeriodos();
+        })
+        function listadoClientesPeriodos() {
+            $.ajax({
+                type: "GET",
+                url: '/listado-clientes-periodos',
+                success: function(res) {
+                    if (res.length > 0) {
+                        //recorremos informacion
+                        res.forEach(async (e) => {
+                            let html = '';
+                            if (e.cobranza_id > 0) {
+                                html = ` <span class="btn text-black">${e.cobranza_id}</span>
+                                    <a href="/cobranza/enviar-mail/${e.cobranza_id}" class="btn text-success">Enviar C.</a>
+                                `;
+                            } else {
+                                html = `<a href="#" id="btnCobranza${e.cliente_id}_${e.periodo_id}" onclick="GenerarCobranza(${e.cliente_id}, ${e.periodo_id})" class="btn text-success">Cobranza</a>`;
+                            }
+                            $(`#resultado${e.periodo_id}`).append(`
+                                <tr id="result-table" class="columnas-${e.cliente_id}_${e.periodo_id}">
+                                    <td hidden><input type="text" id='cliente_periodo_id_${e.cliente_id}_${e.periodo_id}' value="${e.id_cliente_perido}"></td>
+                                    <td><input type="checkbox" id='exento_${e.cliente_id}_${e.periodo_id}' onchange="exentoChequeo(${e.cliente_id}, ${e.periodo_id})"></td>
+                                    <td  scope="row" class="align-middle text-center"><input type='text' id='nombre_cliente_${e.cliente_id}_${e.periodo_id}' readonly class='form-control servicio mx-auto text-center' value='${e.nombre_empresa}' ></td>
+                                    <td  scope="row" class="align-middle text-center"><input type='text' id='descripcion_producto_${e.cliente_id}_${e.periodo_id}'  class='form-control mx-auto text-center' value='Honorarios ${$(`#conceto${e.periodo_id}`).val()}' ></td>
+                                    <td  scope="row" class="align-middle "><input type='text' id='cantidad_producto_${e.cliente_id}_${e.periodo_id}' style="width: 50px;" class='form-control cantidad mx-auto text-center cantidad_req' value='1' readonly></td>
+                                    <td  scope="row" class="align-middle"><input type='number' id='valor_neto_${e.cliente_id}_${e.periodo_id}'  style="width: 100px;" class='form-control valor_unitreq mx-auto text-center'  onkeyup="calcularIVA(${e.cliente_id}, ${e.periodo_id});" value="${e.monto_base}"></td> 
+                                    <td  scope="row" class="align-middle"><input type='text' id='iva_${e.cliente_id}_${e.periodo_id}' readonly style="width: 80px;" class='form-control-plaintext text-center' value='0' step='any'></td>
+                                    <td  scope="row" class="align-middle"><input type='text' id='valor_iva_${e.cliente_id}_${e.periodo_id}' readonly style="width: 80px;" class='form-control-plaintext text-center' value='0' step='any'></td>
+                                    <td  scope="row" class="align-middle">
+                                        <select class="form-control" id="forma_pago_id_${e.cliente_id}_${e.periodo_id}">
+                                            ${window.option_formas_pagos}
+                                        </select>
+                                    </td>
+                                    <td  scope="row" class="align-middle">
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <span class="btn text-black d-none" id="idcobranza_${e.cliente_id}_${e.periodo_id}"></span>
+                                            ${html}
+                                            <a href="#" id="btnFactura${e.cliente_id}_${e.periodo_id}" onclick="FacturaSii(${e.cliente_id}, ${e.periodo_id})" class="btn text-primary">Sii</a>
+                                        </div>
+                                    </td>
+                                    <td  scope="row" class="align-middle text-center"><a class='btn btn-danger btn-sm text-white' onclick="eliminar(${e.cliente_id}, ${e.periodo_id})"><i class="far fa-trash-alt"></i></a></td> 
+                                </tr>
+                            `);
+
+                            calcularIVA(e.cliente_id, e.periodo_id);
+                        });
+
+                    }else{
+                        alert("Sin resultados en la busqueda...")
+                    }
+                }
+            });
+        }
+
+        function traerFormasPagos() {
+            $.ajax({
+                type: "GET",
+                url: '/formas-pagos-json',
+                success: function(res) {
+                    if (res.length > 0) {
+                        res.forEach(element => {
+                            window.option_formas_pagos += `<option value="${element.id}">${element.nombre_fp}</option>` 
+                        });
+                    }
+                }
+            });
+        }
+
         function exentoChequeo(id, periodoid){
             if ($('#exento_'+id+'_'+periodoid).is( ":checked" )) {
                 $("#valor_neto_"+id+'_'+periodoid).removeAttr("onkeyup");

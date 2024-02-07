@@ -34,11 +34,13 @@ Route::get('listado-libro-bancos', [App\Http\Controllers\LibroBancoController::c
 
 #Forma de Pago
 Route::resource('forma-pago', App\Http\Controllers\FormaPagoController::class);
+Route::get('formas-pagos-json', [App\Http\Controllers\FormaPagoController::class, 'formasPagagosJson']);
 #empresa
 Route::resource('empresa', App\Http\Controllers\EmpresaController::class);
 #factura
 Route::resource('factura', App\Http\Controllers\FacturaController::class);
 Route::get('factura/pagination/fetch_data', [App\Http\Controllers\FacturaController::class, 'fetch_data']);
+Route::get('listado-clientes-periodos', [App\Http\Controllers\FacturaController::class, 'listadoClientesPeriodos']);
 #cobranza
 Route::resource('cobranzas', App\Http\Controllers\CobranzaController::class);
 Route::get('cobranza/pagination/fetch_data', [App\Http\Controllers\CobranzaController::class, 'fetch_data']);

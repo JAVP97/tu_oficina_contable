@@ -38,7 +38,7 @@ class FacturaController extends Controller
         $forma_pago = FormaPago::all();
         $clientePeriodos = ClientePeriodo::all();
         $periodos = Periodo::orderBy('periodo', 'desc')->get();
-        return view('factura.create', compact('clientes', 'forma_pago', 'clientePeriodos', 'periodos'));
+        return view('factura.create', compact('clientes', 'periodos', 'forma_pago', 'clientePeriodos'));
     }
 
     /**
@@ -111,5 +111,14 @@ class FacturaController extends Controller
     public function destroy(Factura $factura)
     {
         //
+    }
+
+    public function listadoClientesPeriodos() 
+    {   
+        $clientePeriodos = ClientePeriodo::select('cliente_periodos.id AS id_cliente_perido', 'cliente_periodos.*', 'c.*', 'p.*')
+        ->join('periodos AS p', 'cliente_periodos.periodo_id', 'p.id')
+        ->join('clientes AS c', 'cliente_periodos.cliente_id', 'c.id')
+        ->get();
+        return response()->json($clientePeriodos);
     }
 }
