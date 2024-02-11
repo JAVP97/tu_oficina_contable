@@ -1,4 +1,4 @@
-function agregar ()
+function agregar (periodoid)
 {
     var id;
     if($("#resultado tr#result-table").length == 0) {
@@ -6,19 +6,23 @@ function agregar ()
     } else {
         id = parseInt($("#resultado tr#result-table:last").find("td:eq(0)").text())+1;
     }
-    $("tbody#resultado").append(`
-        <tr id="result-table" class="columnas-${id} text-center">
-            <td  scope="row" class="align-middle"><b>${id}</b></td>
-            <td  scope="row" class="align-middle "><input type='number' name='cantidad[]' id='cantidad'  class='form-control cantidad mx-auto text-center cantidad_req'  onChange='obtTotalMat(${id});' onkeyup='obtTotalMat(${id});' value='0' style='width:80px'></td>
-            <td  scope="row" class="align-middle text-center"><input type='text' name='servicio[]' id='servicio'  class='form-control servicio mx-auto text-center' value='0' style='width:220px'></td>
-            <td  scope="row" class="align-middle"><input type='number' name='valor_neto[]' id='valor_neto'  class='form-control valor_unitreq mx-auto text-center'  onChange='obtTotalMat(${id});' onkeyup='obtTotalMat(${id});' value='0' style='width:100px'></td> 
-            <td  scope="row" class="align-middle"><input type='number' name='total_neto[]' readonly id='totales' class='form-control-plaintext valor_totreq text-center' onchange='calcTotal();' value='0'></td> 
-            <td  scope="row" class="align-middle" id="descuento_alert_${id}"><input type='number' name='descuento[]' id='descuento_${id}' class='form-control text-center mx-auto descuento_req' step='any'  style='width:50px' onChange='CalPorcentaje(${id});' onkeyup='CalPorcentaje(${id});' value='0'></td> 
-            <td  scope="row" class="align-middle"><input type='number' name='descuento_clp[]' id='descuentoclp_${id}' class='form-control-plaintext descuentoclp text-center' readonly step='any' value='0' onkeyup='CalCLP(${id});' readonly></td> 
-            <td  scope="row" class="align-middle"><input type='number' name='total_descuento_item[]' id='total_descuento_item' readonly class='form-control-plaintext text-center total_descuento' value='0' onChange='TotalPorcentaje();' step='any'></td>
-            <td  scope="row" class="align-middle text-center"><a class='btn btn-danger btn-sm text-white' onclick="eliminar(${id})"><i class="far fa-trash-alt"></i></a></td> 
-        </tr>
-    `);
+    $(`#resultado${periodoid}`).append(`
+    <tr id="result-table" class="columnas-${e.cliente_id}_${periodoid}">
+        <td><input type="checkbox" id='exento_${e.cliente_id}_${periodoid}' onchange="exentoChequeo(${e.cliente_id}, ${periodoid})"></td>
+        <td  scope="row" class="align-middle text-center"><input type='text' id='nombre_cliente_${e.cliente_id}_${periodoid}' readonly class='form-control servicio mx-auto text-center' value='${e.nombre_empresa}' ></td>
+        <td  scope="row" class="align-middle text-center"><input type='text' id='descripcion_producto_${e.cliente_id}_${periodoid}'  class='form-control mx-auto text-center' value='Honorarios ${$(`#conceto${periodoid}`).val()}' ></td>
+        <td  scope="row" class="align-middle "><input type='text' id='cantidad_producto_${e.cliente_id}_${periodoid}' style="width: 50px;" class='form-control cantidad mx-auto text-center cantidad_req' value='1' readonly></td>
+        <td  scope="row" class="align-middle"><input type='number' id='valor_neto_${e.cliente_id}_${periodoid}'  style="width: 100px;" class='form-control valor_unitreq mx-auto text-center'  onkeyup="calcularIVA(${e.cliente_id}, ${periodoid});" value="${e.monto_base}"></td> 
+        <td  scope="row" class="align-middle"><input type='text' id='iva_${e.cliente_id}_${periodoid}' readonly style="width: 80px;" class='form-control-plaintext text-center' value='0' step='any'></td>
+        <td  scope="row" class="align-middle"><input type='text' id='valor_iva_${e.cliente_id}_${periodoid}' readonly style="width: 80px;" class='form-control-plaintext text-center' value='0' step='any'></td>
+        <td  scope="row" class="align-middle">
+            <select class="form-control" id="forma_pago_id_${e.cliente_id}_${periodoid}">
+                ${window.option_formas_pagos}
+            </select>
+        </td>
+        <td  scope="row" class="align-middle text-center"><a class='btn btn-danger btn-sm text-white' onclick="eliminar(${e.cliente_id}, ${periodoid})"><i class="far fa-trash-alt"></i></a></td> 
+    </tr>
+`);
 }
 
 //ELIMINAR ITEM

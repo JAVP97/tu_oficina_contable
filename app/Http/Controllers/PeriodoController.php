@@ -71,9 +71,13 @@ class PeriodoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Periodo $periodo)
+    public function update(Request $request, $id)
     {
-        //
+
+        $status = ($request->periodo_cerrado == 'Si') ? 'No' : 'Si' ;
+        $periodo = Periodo::where("id", $id)->update(["periodo_cerrado" => $status]);
+        return response()->json($periodo);
+
     }
 
     /**

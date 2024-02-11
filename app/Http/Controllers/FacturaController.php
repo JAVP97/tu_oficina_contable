@@ -38,7 +38,8 @@ class FacturaController extends Controller
         $forma_pago = FormaPago::all();
         $clientePeriodos = ClientePeriodo::all();
         $periodos = Periodo::orderBy('periodo', 'desc')->get();
-        return view('factura.create', compact('clientes', 'periodos', 'forma_pago', 'clientePeriodos'));
+        $clientes = Cliente::where('status', 'Activo')->get();
+        return view('factura.create', compact('clientes', 'periodos', 'forma_pago', 'clientePeriodos', 'clientes'));
     }
 
     /**
@@ -119,6 +120,25 @@ class FacturaController extends Controller
         ->join('periodos AS p', 'cliente_periodos.periodo_id', 'p.id')
         ->join('clientes AS c', 'cliente_periodos.cliente_id', 'c.id')
         ->get();
+        return response()->json($clientePeriodos);
+    }
+
+    public function agregarClientesPeriodos(Request $request) 
+    { 
+        $cliente_periodo = new ClientePeriodo();
+        $cliente_periodo->periodo_id = $request->periodo_id;
+        $cliente_periodo->cliente_id = $request->cliente_id;
+        $cliente_periodo->save();
+        
+       $clientePeriodos = ClientePeriodo::select('cliente_periodos.id AS id_cliente_perido', 'cliente_periodos.*', 'c.*', 'p.*')
+        ->join('periodos AS p', 'cliente_periodos.periodo_id', 'p.id')
+        ->join('clientes AS c', 'cliente_periodos.cliente_id', 'c.id')
+        ->where('cliente_periodos.periodo_id', $request->periodo_id)
+        ->where('c.id', $request->cliente_id)
+        ->where('cliente_periodos.id', $cliente_periodo->id)
+        ->get();
+
+
         return response()->json($clientePeriodos);
     }
 }
